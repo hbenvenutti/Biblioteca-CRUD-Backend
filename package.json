@@ -9,6 +9,8 @@
     "@commitlint/cli": "^17.0.3",
     "@commitlint/config-conventional": "^17.0.3",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "commitizen": "^4.2.5",
+    "cz-conventional-changelog": "3.3.0",
     "eslint": "^8.0.1",
     "eslint-config-prettier": "^8.5.0",
     "eslint-config-standard-with-typescript": "^22.0.0",
@@ -16,7 +18,23 @@
     "eslint-plugin-n": "^15.0.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-promise": "^6.0.0",
+    "husky": "^6.0.0",
+    "lint-staged": "^13.0.3",
     "prettier": "^2.7.1",
     "typescript": "*"
+  },
+  "scripts": {
+    "prepare": "husky install"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "lint-staged": {
+    "*.ts": [
+      "eslint --fix",
+      "cross-env CI=true yarn test --bail --findRelatedTests"
+    ]
   }
 }

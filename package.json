@@ -5,25 +5,11 @@
   "repository": "git@github.com:hbenvenutti/Biblioteca-CRUD-Backend.git",
   "author": "Huam Benvenutti <huambenvenutti@protonmail.com>",
   "license": "MIT",
-  "devDependencies": {
-    "@commitlint/cli": "^17.0.3",
-    "@commitlint/config-conventional": "^17.0.3",
-    "@typescript-eslint/eslint-plugin": "^5.0.0",
-    "commitizen": "^4.2.5",
-    "cz-conventional-changelog": "3.3.0",
-    "eslint": "^8.0.1",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-config-standard-with-typescript": "^22.0.0",
-    "eslint-plugin-import": "^2.25.2",
-    "eslint-plugin-n": "^15.0.0",
-    "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-promise": "^6.0.0",
-    "husky": "^6.0.0",
-    "lint-staged": "^13.0.3",
-    "prettier": "^2.7.1",
-    "typescript": "*"
-  },
   "scripts": {
+    "build": "babel src --extensions \".js,.ts\" --source-maps --out-dir dist --copy-files",
+    "prod:server": "node ./dist/shared/infra/http/server.js",
+    "dev:server": "tsnd -r tsconfig-paths/register --inspect --transpile-only --ignore node_modules src/shared/infra/http/server.ts",
+    "typeorm": "tsnd -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "prepare": "husky install"
   },
   "config": {
@@ -36,5 +22,34 @@
       "eslint --fix",
       "cross-env CI=true yarn test --bail --findRelatedTests"
     ]
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.18.10",
+    "@babel/core": "^7.18.10",
+    "@babel/node": "^7.18.10",
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
+    "@babel/plugin-proposal-decorators": "^7.18.10",
+    "@babel/preset-env": "^7.18.10",
+    "@babel/preset-typescript": "^7.18.6",
+    "@commitlint/cli": "^17.0.3",
+    "@commitlint/config-conventional": "^17.0.3",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "babel-plugin-module-resolver": "^4.1.0",
+    "babel-plugin-transform-typescript-metadata": "^0.3.2",
+    "commitizen": "^4.2.5",
+    "cz-conventional-changelog": "3.3.0",
+    "eslint": "^8.0.1",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-standard-with-typescript": "^22.0.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-n": "^15.0.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-promise": "^6.0.0",
+    "husky": "^6.0.0",
+    "lint-staged": "^13.0.3",
+    "prettier": "^2.7.1",
+    "ts-node-dev": "^2.0.0",
+    "tsconfig-paths": "^4.1.0",
+    "typescript": "^4.7.4"
   }
 }

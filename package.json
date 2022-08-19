@@ -1,0 +1,8 @@
+{
+  "name": "Biblioteca-CRUD-Backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:hbenvenutti/Biblioteca-CRUD-Backend.git",
+  "author": "Huam Benvenutti <huambenvenutti@protonmail.com>",
+  "license": "MIT"
+}

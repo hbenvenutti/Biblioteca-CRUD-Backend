@@ -7,7 +7,9 @@
 
     "moduleResolution": "node",
     "baseUrl": "./src",
-    "paths": {},
+    "paths": {
+      "@shared/*": ["shared/*"]
+    },
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,

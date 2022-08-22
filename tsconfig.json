@@ -8,7 +8,13 @@
     "moduleResolution": "node",
     "baseUrl": "./src",
     "paths": {
-      "@shared/*": ["shared/*"]
+      "@accounts/*": ["modules/accounts/*"],
+      "@accounts:routes/*":["modules/accounts/infra/http/*"],
+
+      "@shared/*": ["shared/*"],
+      "@shared:app/*": ["shared/infra/http/*"],
+      "@shared:routes/*": ["shared/infra/http/routes/*"],
+      "@firestore/*": ["shared/infra/firestore/*"]
     },
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,

@@ -9,10 +9,17 @@ module.exports = {
       'module-resolver',
       {
         alias: {
-          "@config": ["./src/config"],
-          "@errors": ["./src/shared/errors"],
-          "@middlewares": ["./src/shared/infra/http/middlewares"],
-          "@shared": ["./src/shared"],
+          "@config": "./src/config",
+          "@errors": "./src/shared/errors",
+          "@middlewares": "./src/shared/infra/http/middlewares",
+
+          "@shared": "./src/shared",
+          "@shared:app": "./src/shared/infra/http",
+          "@shared:routes": "./src/shared/infra/http/routes",
+          "@firestore": "./src/shared/infra/firestore",
+
+          "@accounts": "./src/modules/accounts",
+          "@accounts:routes": "./src/modules/accounts/infra/http"
         }
       }
     ],

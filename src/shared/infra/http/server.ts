@@ -1,6 +1,5 @@
-import app from './App';
+import server from '@shared:app/App';
 
-app.listen((process.env.PORT), () => {
+server.listen((process.env.PORT), () => {
   console.log(`Listening at port: ${process.env.PORT}\nEnv: ${process.env.NODE_ENV}`);
 });
-

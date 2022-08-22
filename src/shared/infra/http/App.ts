@@ -1,6 +1,9 @@
-import express from 'express';
-import { routes } from './routes/index.routes';
 import 'dotenv/config';
+import express from 'express';
+
+import { routes } from '@shared:routes/index.routes';
+
+// ---------------------------------------------------------------------------------------------- //
 
 class App {
   server = express();
@@ -17,5 +20,7 @@ class App {
     this.server.use(routes);
   }
 }
+
+// ---------------------------------------------------------------------------------------------- //
 
 export default new App().server;

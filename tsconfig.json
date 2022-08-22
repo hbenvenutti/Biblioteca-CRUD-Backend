@@ -10,7 +10,7 @@
     "paths": {
       "@accounts/*": ["modules/accounts/*"],
       "@accounts:containers/*": ["modules/accounts/containers/*"],
-      "@accounts:entities/*": ["modules/accounts/infra/firestore/entities/*"],
+      "@accounts:entities/*": ["modules/accounts/entities/*"],
       "@accounts:errors/*": ["modules/accounts/errors/*"],
       "@accounts:mappers/*": ["modules/accounts/mappers/*"],
       "@accounts:dtos/*":["modules/accounts/dtos/*"],
@@ -21,7 +21,7 @@
 
       "@books/*": ["modules/books/*"],
       "@books:containers/*": ["modules/books/containers/*"],
-      "@books:entities/*": ["modules/books/infra/firestore/entities/*"],
+      "@books:entities/*": ["modules/books/entities/*"],
       "@books:errors/*": ["modules/books/errors/*"],
       "@books:mappers/*": ["modules/books/mappers/*"],
       "@books:dtos/*":["modules/books/dtos/*"],

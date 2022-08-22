@@ -9,6 +9,7 @@
     "baseUrl": "./src",
     "paths": {
       "@accounts/*": ["modules/accounts/*"],
+      "@accounts:dtos/*":["modules/accounts/dtos/*"],
       "@accounts:routes/*":["modules/accounts/infra/http/*"],
 
       "@shared/*": ["shared/*"],

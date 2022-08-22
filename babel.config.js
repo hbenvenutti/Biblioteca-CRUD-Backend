@@ -19,7 +19,8 @@ module.exports = {
           "@firestore": "./src/shared/infra/firestore",
 
           "@accounts": "./src/modules/accounts",
-          "@accounts:routes": "./src/modules/accounts/infra/http"
+          "@accounts:routes": "./src/modules/accounts/infra/http",
+          "@accounts:dtos": "./src/module/accounts/dtos"
         }
       }
     ],

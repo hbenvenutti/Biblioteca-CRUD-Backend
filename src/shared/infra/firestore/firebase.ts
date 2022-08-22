@@ -1,5 +1,7 @@
 import { initializeApp, cert } from 'firebase-admin/app';
 
+// ---------------------------------------------------------------------------------------------- //
+
 const serviceAccount = {
   projectId: process.env.PROJECT_ID,
   clientEmail: process.env.CLIENT_EMAIL,
@@ -8,5 +10,6 @@ const serviceAccount = {
 
 const firebaseApp = initializeApp({ credential: cert(serviceAccount) });
 
+// ---------------------------------------------------------------------------------------------- //
 
 export { firebaseApp };

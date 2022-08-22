@@ -1,6 +1,7 @@
 {
   "cSpell.words": [
     "commitlint",
+    "firestore",
     "linebreak",
     "nonblock",
     "nonwords",
@@ -8,6 +9,7 @@
     "stroustrup"
   ],
   "material-icon-theme.folders.associations": {
-    "books": "context"
+    "books": "context",
+    "firestore": "database"
   }
 }

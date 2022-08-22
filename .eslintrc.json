@@ -41,7 +41,7 @@
           "next": "return"
         }],
         "object-curly-spacing": ["error", "always"],
-        "object-curly-newline": ["error", {"minProperties": 3}],
+        "object-curly-newline": ["error", {"consistent": true}],
         "rest-spread-spacing": ["error", "never"],
         "computed-property-spacing": ["error", "never"],
         "dot-location": ["error", "property"],

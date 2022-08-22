@@ -1,6 +1,11 @@
 import { getFirestore } from 'firebase-admin/firestore';
-import { firebaseApp } from './firebase';
+
+import { firebaseApp } from '@firestore/firebase';
+
+// ---------------------------------------------------------------------------------------------- //
 
 const database = getFirestore(firebaseApp);
+
+// ---------------------------------------------------------------------------------------------- //
 
 export { database };

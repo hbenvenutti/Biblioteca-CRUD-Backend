@@ -1,3 +1,5 @@
+import { database } from '@firestore/firestore';
+
 import { CreateUserDTO } from '@accounts:dtos/CreateUser.dto';
 import { User } from '@accounts:entities/User';
 import { UsersRepositoryInterface } from '@accounts:repositories-interfaces/UsersRepository.interface';
@@ -5,8 +7,25 @@ import { UsersRepositoryInterface } from '@accounts:repositories-interfaces/User
 // ---------------------------------------------------------------------------------------------- //
 
 class UsersRepository implements UsersRepositoryInterface {
-  create(data: CreateUserDTO): Promise<User> {
-    throw new Error('Method not implemented.');
+  private users = database.collection('users');
+
+  async create({ email, name, last_name, password }: CreateUserDTO): Promise<User> {
+    const { id } = await this.users.add({
+      email,
+      name,
+      last_name,
+      password
+    });
+
+    const user = {
+      id,
+      email,
+      name,
+      last_name,
+      password
+    };
+
+    return user;
   }
 
   list(): Promise<User[]> {

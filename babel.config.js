@@ -19,8 +19,26 @@ module.exports = {
           "@firestore": "./src/shared/infra/firestore",
 
           "@accounts": "./src/modules/accounts",
+          "@accounts:containers": "./src/module/accounts/containers",
+          "@accounts:dtos": "./src/module/accounts/dtos",
+          "@accounts:entities": "./src/module/accounts/infra/firestore/entities",
+          "@accounts:errors": "./src/module/accounts/errors",
+          "@accounts:mappers": "./src/module/accounts/mappers",
+          "@accounts:repositories": "./src/module/accounts/infra/firestore/repositories",
+          "@accounts:repositories-interfaces": "./src/module/accounts/repositories",
           "@accounts:routes": "./src/modules/accounts/infra/http",
-          "@accounts:dtos": "./src/module/accounts/dtos"
+          "@accounts:use-cases": "./src/module/accounts/use-cases",
+
+          "@books": "./src/modules/books",
+          "@books:containers": "./src/module/books/containers",
+          "@books:dtos": "./src/module/books/dtos",
+          "@books:entities": "./src/module/books/infra/firestore/entities",
+          "@books:errors": "./src/module/books/errors",
+          "@books:mappers": "./src/module/books/mappers",
+          "@books:repositories": "./src/module/books/infra/firestore/repositories",
+          "@books:repositories-interfaces": "./src/module/books/repositories",
+          "@books:routes": "./src/modules/books/infra/http",
+          "@books:use-cases": "./src/module/books/use-cases"
         }
       }
     ],

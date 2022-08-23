@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
-import { CreateUserService } from '@accounts:use-cases/Users/CreateUser.service';
+import { CreateUserService } from '@accounts:use-cases/users/CreateUser.service';
 
 // ---------------------------------------------------------------------------------------------- //
 

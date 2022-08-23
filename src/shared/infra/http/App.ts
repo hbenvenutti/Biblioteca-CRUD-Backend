@@ -1,4 +1,7 @@
+import 'reflect-metadata';
 import 'dotenv/config';
+import '@shared:containers/index';
+
 import express from 'express';
 
 import { routes } from '@shared:routes/index.routes';

@@ -8,6 +8,10 @@
     "moduleResolution": "node",
     "baseUrl": "./src",
     "paths": {
+      "@config/*": ["config/*"],
+      "@errors/*": ["shared/errors/*"],
+      "@middlewares/*": ["shared/infra/http/middlewares/*"],
+
       "@accounts/*": ["modules/accounts/*"],
       "@accounts:containers/*": ["modules/accounts/containers/*"],
       "@accounts:entities/*": ["modules/accounts/entities/*"],

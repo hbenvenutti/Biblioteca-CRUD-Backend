@@ -1,7 +1,7 @@
 {
   "name": "biblioteca-crud-backend",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/shared/infra/http/server.js",
   "repository": "git@github.com:hbenvenutti/Biblioteca-CRUD-Backend.git",
   "author": "Huam Benvenutti <huambenvenutti@protonmail.com>",
   "license": "MIT",

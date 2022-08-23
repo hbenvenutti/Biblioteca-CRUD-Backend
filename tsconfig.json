@@ -32,6 +32,7 @@
 
       "@shared/*": ["shared/*"],
       "@shared:app/*": ["shared/infra/http/*"],
+      "@shared:containers/*": ["shared/containers/*"],
       "@shared:routes/*": ["shared/infra/http/routes/*"],
       "@firestore/*": ["shared/infra/firestore/*"]
     },

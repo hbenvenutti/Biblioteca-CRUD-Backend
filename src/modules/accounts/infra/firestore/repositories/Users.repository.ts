@@ -9,19 +9,19 @@ import { UsersRepositoryInterface } from '@accounts:repositories-interfaces/User
 class UsersRepository implements UsersRepositoryInterface {
   private users = database.collection('users');
 
-  async create({ email, name, last_name, password }: CreateUserDTO): Promise<User> {
+  async create({ email, name, lastName, password }: CreateUserDTO): Promise<User> {
     const { id } = await this.users.add({
       email,
       name,
-      last_name,
-      password
+      password,
+      lastName
     });
 
     const user = {
       id,
       email,
       name,
-      last_name,
+      lastName,
       password
     };
 

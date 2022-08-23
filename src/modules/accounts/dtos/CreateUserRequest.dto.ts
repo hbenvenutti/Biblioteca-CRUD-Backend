@@ -1,6 +1,6 @@
 export interface CreateUserRequestDTO {
   name: string;
-  last_name: string;
+  lastName: string;
   email: string;
   password: string;
   passwordConfirmation: string;

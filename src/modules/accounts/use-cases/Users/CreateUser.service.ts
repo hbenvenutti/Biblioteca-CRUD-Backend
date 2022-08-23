@@ -1,11 +1,15 @@
+import { inject, injectable } from 'tsyringe';
+
 import { CreateUserRequestDTO } from '@accounts:dtos/CreateUserRequest.dto';
 import { CreateUserResponse } from '@accounts:dtos/CreateUserResponse.dto';
 import { UsersRepositoryInterface } from '@accounts:repositories-interfaces/UsersRepository.interface';
 
 // ---------------------------------------------------------------------------------------------- //
 
+@injectable()
 export class CreateUserService {
   constructor(
+    @inject('UsersRepository')
     private usersRepository: UsersRepositoryInterface
   ) {}
 

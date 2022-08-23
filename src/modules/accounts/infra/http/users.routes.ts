@@ -8,7 +8,7 @@ const usersRouter = Router();
 
 const createUserController = new CreateUserController();
 
-usersRouter.get('/', createUserController.execute);
+usersRouter.post('/', createUserController.execute);
 
 // ---------------------------------------------------------------------------------------------- //
 

@@ -5,6 +5,7 @@ import { CreateUserResponse } from '@accounts:dtos/CreateUserResponse.dto';
 import { EmailInUseError } from '@accounts:errors/EmailInUse.error';
 import { InvalidDataError } from '@accounts:errors/InvalidData.error';
 import { PasswordsDontMatchError } from '@accounts:errors/PasswordsDontMatch.error';
+import { UserMap } from '@accounts:mappers/User.map';
 import { UsersRepositoryInterface } from '@accounts:repositories-interfaces/UsersRepository.interface';
 import { ValidationProviderInterface } from '@shared:containers/providers/validation/Validation.provider.interface';
 
@@ -24,14 +25,12 @@ export class CreateUserService {
     const { name, lastName, email, password, passwordConfirmation } = data;
 
     // *** ---- Compare Passwords ----------------------------------------------------------- *** //
-
     if (password !== passwordConfirmation) {
       throw new PasswordsDontMatchError();
     }
 
 
     // *** ---- Data Validation ------------------------------------------------------------- *** //
-
     const dataIsValid = await this.validationProvider.validateUserCreationData(data);
 
     if (!dataIsValid) {
@@ -40,7 +39,6 @@ export class CreateUserService {
 
 
     // *** ---- Verify if user already exists ----------------------------------------------- *** //
-
     const emailInUse = await this.usersRepository.findByEmail(email);
 
     if (emailInUse) {
@@ -59,7 +57,7 @@ export class CreateUserService {
       password: passwordHash
     });
 
-    //TODO: Return user without password
-    return user;
+    // *** ---- Removes password from user -------------------------------------------------- *** //
+    return UserMap.toDto(user);
   }
 }

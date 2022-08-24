@@ -2,6 +2,7 @@ import 'reflect-metadata';
 
 import { CreateUserService } from '@accounts:use-cases/users/create-user/CreateUser.service';
 import { EmailInUseError } from '@accounts:errors/EmailInUse.error';
+import { InvalidDataError } from '@accounts:errors/InvalidData.error';
 import { UsersRepositoryInterface } from '@accounts:repositories-interfaces/UsersRepository.interface';
 import { UsersRepositoryMock } from '@accounts:repositories-interfaces/mock/UsersRepository.mock';
 import { PasswordsDontMatchError } from '@accounts:errors/PasswordsDontMatch.error';
@@ -73,7 +74,8 @@ describe('Create User Service', () => {
     expect(async () => {
       await createUserService.execute(data);
     })
-      .rejects.toEqual(new EmailInUseError());
+      .rejects
+      .toEqual(new EmailInUseError());
   });
 
   // -------------------------------------------------------------------------------------------- //
@@ -90,7 +92,8 @@ describe('Create User Service', () => {
     expect(async () => {
       await createUserService.execute(data);
     })
-      .rejects.toEqual(new PasswordsDontMatchError());
+      .rejects
+      .toEqual(new PasswordsDontMatchError());
   });
 
   // -------------------------------------------------------------------------------------------- //
@@ -109,5 +112,21 @@ describe('Create User Service', () => {
     await createUserService.execute(data);
 
     expect(validateUserCreationData).toHaveBeenCalled();
+  });
+
+  it('should throw an error if validation return is false', async () => {
+    const data = {
+      name: 'john',
+      lastName: 'doe',
+      email: 'invalid',
+      password: '@Hçflkdçfl151',
+      passwordConfirmation: '@Hçflkdçfl151'
+    };
+
+    expect(async () => {
+      await createUserService.execute(data);
+    })
+      .rejects
+      .toEqual(new InvalidDataError());
   });
 });

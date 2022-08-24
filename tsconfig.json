@@ -37,7 +37,9 @@
       "@shared/*": ["shared/*"],
       "@shared:app/*": ["shared/infra/http/*"],
       "@shared:containers/*": ["shared/containers/*"],
+      "@shared:providers/*": ["shared/containers/providers/*"],
       "@shared:routes/*": ["shared/infra/http/routes/*"],
+      "@shared:utils/*": ["shared/utils/*"],
       "@firestore/*": ["shared/infra/firestore/*"]
     },
     "allowSyntheticDefaultImports": true,

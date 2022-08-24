@@ -16,7 +16,9 @@ module.exports = {
           "@shared": "./src/shared",
           "@shared:app": "./src/shared/infra/http",
           "@shared:containers": "./src/shared/containers",
+          "@shared:providers": "./src/shared/containers/providers",
           "@shared:routes": "./src/shared/infra/http/routes",
+          "@shared:utils": "./src/shared/utils",
           "@firestore": "./src/shared/infra/firestore",
 
           "@accounts": "./src/modules/accounts",

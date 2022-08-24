@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import { CreateUserController } from '@accounts:use-cases/users/CreateUser.controller';
+import { CreateUserController } from '@accounts:use-cases/users/create-user/CreateUser.controller';
 
 // ---------------------------------------------------------------------------------------------- //
 

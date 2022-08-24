@@ -27,7 +27,6 @@ class App {
   }
 
   exceptionHandler() {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     this.server.use((err: Error, request: Request, response: Response, _:NextFunction) => {
       if (err instanceof AppError) {
         return response.status(err.statusCode).json({ status: 'error', message: err.message });

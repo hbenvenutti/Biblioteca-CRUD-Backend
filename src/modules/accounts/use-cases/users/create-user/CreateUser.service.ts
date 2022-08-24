@@ -8,6 +8,7 @@ import { PasswordsDontMatchError } from '@accounts:errors/PasswordsDontMatch.err
 import { UserMap } from '@accounts:mappers/User.map';
 import { UsersRepositoryInterface } from '@accounts:repositories-interfaces/UsersRepository.interface';
 import { ValidationProviderInterface } from '@shared:containers/providers/validation/Validation.provider.interface';
+import { HashProviderInterface } from '@shared:containers/providers/hash/Hash.provider.interface';
 
 // ---------------------------------------------------------------------------------------------- //
 
@@ -18,7 +19,10 @@ export class CreateUserService {
     private usersRepository: UsersRepositoryInterface,
 
     @inject('ValidationProvider')
-    private validationProvider: ValidationProviderInterface
+    private validationProvider: ValidationProviderInterface,
+
+    @inject('HashProvider')
+    private hashProvider: HashProviderInterface
   ) {}
 
   async execute(data: CreateUserRequestDTO): Promise<CreateUserResponse> {
@@ -45,8 +49,8 @@ export class CreateUserService {
       throw new EmailInUseError();
     }
 
-    //TODO: Crypt the password
-    const passwordHash = password;
+    // *** --- Hashes the password ---------------------------------------------------------- *** //
+    const passwordHash = await this.hashProvider.hash(password);
 
 
     // *** ---- Creates user in db ---------------------------------------------------------- *** //

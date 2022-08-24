@@ -1,22 +1,25 @@
 import 'reflect-metadata';
 
-import { AppError } from '@errors/App.error';
 import { CreateUserService } from '@accounts:use-cases/users/create-user/CreateUser.service';
 import { EmailInUseError } from '@accounts:errors/EmailInUse.error';
 import { UsersRepositoryInterface } from '@accounts:repositories-interfaces/UsersRepository.interface';
 import { UsersRepositoryMock } from '@accounts:repositories-interfaces/mock/UsersRepository.mock';
 import { PasswordsDontMatchError } from '@accounts:errors/PasswordsDontMatch.error';
+import { ValidationMockProvider } from '@shared:containers/providers/validation/Validation.mock.provider';
+import { ValidationProviderInterface } from '@shared:containers/providers/validation/Validation.provider.interface';
 
 
 // ---------------------------------------------------------------------------------------------- //
 
 describe('Create User Service', () => {
   let usersRepository: UsersRepositoryInterface;
+  let validationProvider: ValidationProviderInterface;
   let createUserService: CreateUserService;
 
   beforeEach(() => {
     usersRepository = new UsersRepositoryMock();
-    createUserService = new CreateUserService(usersRepository);
+    validationProvider = new ValidationMockProvider();
+    createUserService = new CreateUserService(usersRepository, validationProvider);
   });
 
   // ? ---- Successful User Creation ---------------------------------------------------------- ? //
@@ -57,7 +60,7 @@ describe('Create User Service', () => {
   // ? ---- Data Validation ------------------------------------------------------------------- ? //
 
   it('should fail if e-mail is already in use', async () => {
-    const user = {
+    const data = {
       name: 'john',
       lastName: 'doe',
       email: 'johndoe@email.com',
@@ -65,10 +68,10 @@ describe('Create User Service', () => {
       passwordConfirmation: '@Hçflkdçfl151'
     };
 
-    await createUserService.execute(user);
+    await createUserService.execute(data);
 
     expect(async () => {
-      await createUserService.execute(user);
+      await createUserService.execute(data);
     })
       .rejects.toEqual(new EmailInUseError());
   });
@@ -76,7 +79,7 @@ describe('Create User Service', () => {
   // -------------------------------------------------------------------------------------------- //
 
   it('should fail if passwords don\'t match', async () => {
-    const user = {
+    const data = {
       name: 'john',
       lastName: 'doe',
       email: 'johndoe@email.com',
@@ -85,15 +88,17 @@ describe('Create User Service', () => {
     };
 
     expect(async () => {
-      await createUserService.execute(user);
+      await createUserService.execute(data);
     })
       .rejects.toEqual(new PasswordsDontMatchError());
   });
 
   // -------------------------------------------------------------------------------------------- //
 
-  it('should fail if email is not valid', async() => {
-    const user = {
+  it('should call validation provider', async() => {
+    const validateUserCreationData = jest.spyOn(validationProvider, 'validateUserCreationData');
+
+    const data = {
       name: 'john',
       lastName: 'doe',
       email: 'johndoe@email.com',
@@ -101,9 +106,8 @@ describe('Create User Service', () => {
       passwordConfirmation: '@Hçflkdçfl151'
     };
 
-    expect(async () => {
-      await createUserService.execute(user);
-    })
-      .rejects.toEqual(new AppError('email not valid'));
+    await createUserService.execute(data);
+
+    expect(validateUserCreationData).toHaveBeenCalled();
   });
 });

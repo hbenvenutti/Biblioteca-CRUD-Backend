@@ -5,6 +5,7 @@
     "dtos",
     "firestore",
     "linebreak",
+    "middlewares",
     "nonblock",
     "nonwords",
     "parens",

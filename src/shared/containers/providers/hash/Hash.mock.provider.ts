@@ -1,6 +1,6 @@
 import { HashProviderInterface } from '@shared:containers/providers/hash/Hash.provider.interface';
 
-export class HashMockProvider implements HashProviderInterface {
+export class MockHashProvider implements HashProviderInterface {
   async hash(string: string): Promise<string> {
     return string;
   }

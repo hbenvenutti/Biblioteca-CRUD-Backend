@@ -21,7 +21,6 @@ export class UsersRepositoryMock implements UsersRepositoryInterface {
     };
 
     this.users.push(user);
-    console.log(this.users);
 
     return user;
   }
@@ -30,8 +29,10 @@ export class UsersRepositoryMock implements UsersRepositoryInterface {
     throw new Error('Method not implemented.');
   }
 
-  findByEmail(email: string): Promise<User> | undefined {
-    throw new Error('Method not implemented.');
+  async findByEmail(email: string): Promise<User | undefined> {
+    const user = this.users.find(user => user.email === email);
+
+    return user;
   }
 
   findById(id: string): Promise<User[]> {

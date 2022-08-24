@@ -11,6 +11,12 @@
   ],
   "material-icon-theme.folders.associations": {
     "books": "context",
-    "firestore": "database"
-  }
+    "firestore": "database",
+
+    // *** ---- Providers ---- *** //
+    "hash": "secure",
+
+    // *** ---- Use Cases ---- *** //
+    "create-user": "controller"
+  },
 }

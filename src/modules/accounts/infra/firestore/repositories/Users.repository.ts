@@ -32,7 +32,7 @@ class UsersRepository implements UsersRepositoryInterface {
     throw new Error('Method not implemented.');
   }
 
-  findByEmail(email: string): Promise<User> | undefined {
+  findByEmail(email: string): Promise<User | undefined> {
     throw new Error('Method not implemented.');
   }
 

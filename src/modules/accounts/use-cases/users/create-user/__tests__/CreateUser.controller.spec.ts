@@ -1,10 +1,13 @@
 import request from 'supertest';
 
 import server from '@shared:app/App';
+import { TestDatabaseFactory } from '@shared/infra/database/TestDatabaseFactory';
 
 // ---------------------------------------------------------------------------------------------- //
 
 describe('User Creation integration test', () => {
+  const database = new TestDatabaseFactory().testDatabase;
+
   const name = 'john';
   const lastName = 'doe';
   const email = 'johndoe@example.com';
@@ -12,8 +15,11 @@ describe('User Creation integration test', () => {
   const passwordConfirmation = password;
 
   beforeEach(async () => {
-    //TODO: Delete user every new test
-    const database = 'db';
+    await database.deleteAllUsers();
+  });
+
+  afterAll(async () => {
+    await database.deleteAllUsers();
   });
 
   // *** ---- Success Test Cases ------------------------------------------------------------ *** //
@@ -401,5 +407,3 @@ describe('User Creation integration test', () => {
     expect(true).toBeFalsy();
   });
 });
-
-export {};

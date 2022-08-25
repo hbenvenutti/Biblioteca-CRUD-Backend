@@ -59,9 +59,8 @@ describe('User Creation integration test', () => {
 
   // *** ---- String Treatment -------------------------------------------------------------- *** //
   it('should remove useless spaces', async () => {
-    const name = '  john ';
-    const lastName = ' doe';
-    const email = ' johndoe@example.com';
+    const name = ' john ';
+    const lastName = ' doe ';
 
     const response = await request(server)
       .post('/accounts/users')
@@ -337,9 +336,8 @@ describe('User Creation integration test', () => {
 
     const { body } = response;
 
-    expect(response.status).toEqual(400);
+    expect(response.status).toEqual(500);
     expect(body).toHaveProperty('message');
-    expect(body.message).toEqual('invalid data');
     expect(body).toHaveProperty('status');
     expect(body.status).toEqual('error');
   });
@@ -355,9 +353,8 @@ describe('User Creation integration test', () => {
 
     const { body } = response;
 
-    expect(response.status).toEqual(400);
+    expect(response.status).toEqual(500);
     expect(body).toHaveProperty('message');
-    expect(body.message).toEqual('invalid data');
     expect(body).toHaveProperty('status');
     expect(body.status).toEqual('error');
   });

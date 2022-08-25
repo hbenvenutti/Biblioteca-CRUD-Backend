@@ -1,6 +1,6 @@
 import { database } from '@firestore/firestore';
 
-import { CreateUserDTO } from '@accounts:dtos/CreateUser.dto';
+import { UserCreationData } from '@accounts:dtos/Users.dto';
 import { User } from '@accounts:entities/User';
 import { UsersRepositoryInterface } from '@accounts:repositories-interfaces/UsersRepository.interface';
 
@@ -9,7 +9,7 @@ import { UsersRepositoryInterface } from '@accounts:repositories-interfaces/User
 class UsersRepository implements UsersRepositoryInterface {
   private users = database.collection('users');
 
-  async create({ email, name, lastName, password }: CreateUserDTO): Promise<User> {
+  async create({ email, name, lastName, password }: UserCreationData): Promise<User> {
     const { id } = await this.users.add({
       email,
       name,

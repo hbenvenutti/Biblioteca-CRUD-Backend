@@ -1,9 +1,9 @@
 import * as yup from 'yup';
 import yupPassword from 'yup-password';
 
-import { CreateUserRequestDTO } from '@accounts/dtos/CreateUserRequest.dto';
+import { UserCreationRequest } from '@accounts:dtos/Users.dto';
 import { ValidationProviderInterface } from '@shared:containers/providers/validation/Validation.provider.interface';
-import { hasOnlyLetters } from '@shared/utils/hasOnlyLetters';
+import { hasOnlyLetters } from '@shared:utils/hasOnlyLetters';
 
 // ---------------------------------------------------------------------------------------------- //
 
@@ -20,7 +20,7 @@ export class YupValidationProvider implements ValidationProviderInterface {
     yupPassword(yup);
   }
 
-  async validateUserCreationData(data: CreateUserRequestDTO): Promise<boolean> {
+  async validateUserCreationData(data: UserCreationRequest): Promise<boolean> {
     const userCreationSchema = yup
       .object()
       .shape({

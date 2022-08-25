@@ -1,4 +1,4 @@
-import { TestDatabaseInterface } from '@shared/infra/database/TestDatabase.interface';
+import { TestDatabaseInterface } from '@shared:infra/database/TestDatabase.interface';
 import { database }from '@firestore/firestore';
 
 // ---------------------------------------------------------------------------------------------- //

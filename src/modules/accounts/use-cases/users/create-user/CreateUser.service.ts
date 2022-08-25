@@ -1,7 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 
-import { CreateUserRequestDTO } from '@accounts:dtos/CreateUserRequest.dto';
-import { CreateUserResponse } from '@accounts:dtos/CreateUserResponse.dto';
+import { UserCreationRequest, UserResponseData } from '@accounts:dtos/Users.dto';
 
 import { EmailInUseError } from '@accounts:errors/EmailInUse.error';
 import { InvalidDataError } from '@accounts:errors/InvalidData.error';
@@ -14,7 +13,7 @@ import { UsersRepositoryInterface } from '@accounts:repositories-interfaces/User
 import { ValidationProviderInterface } from '@shared:providers/validation/Validation.provider.interface';
 import { HashProviderInterface } from '@shared:providers/hash/Hash.provider.interface';
 
-import { prepareStringToDatabase } from '@shared/utils/prepareStringToDatabase';
+import { prepareStringToDatabase } from '@shared:utils/prepareStringToDatabase';
 
 // ---------------------------------------------------------------------------------------------- //
 
@@ -33,7 +32,7 @@ export class CreateUserService {
 
   // -------------------------------------------------------------------------------------------- //
 
-  async execute(data: CreateUserRequestDTO): Promise<CreateUserResponse> {
+  async execute(data: UserCreationRequest): Promise<UserResponseData> {
     const { password, passwordConfirmation } = data;
 
     // *** ---- Compare Passwords ----------------------------------------------------------- *** //
@@ -63,7 +62,7 @@ export class CreateUserService {
       throw new EmailInUseError();
     }
 
-    
+
     // *** --- Hashes the password ---------------------------------------------------------- *** //
     const passwordHash = await this.hashProvider.hash(password);
 

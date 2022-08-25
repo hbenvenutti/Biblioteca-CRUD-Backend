@@ -12,7 +12,7 @@ import { CreateUserService } from '@accounts:use-cases/users/create-user/CreateU
 import { HashProviderInterface } from '@shared:providers/hash/Hash.provider.interface';
 import { MockValidationProvider } from '@shared:providers/validation/Validation.mock.provider';
 import { ValidationProviderInterface } from '@shared:providers/validation/Validation.provider.interface';
-import { MockHashProvider } from '@shared/containers/providers/hash/Hash.mock.provider';
+import { MockHashProvider } from '@shared:providers/hash/Hash.mock.provider';
 
 // ---------------------------------------------------------------------------------------------- //
 

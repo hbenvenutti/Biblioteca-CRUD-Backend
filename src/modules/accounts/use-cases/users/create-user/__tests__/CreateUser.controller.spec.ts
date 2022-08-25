@@ -1,7 +1,7 @@
 import request from 'supertest';
 
 import server from '@shared:app/App';
-import { TestDatabaseFactory } from '@shared/infra/database/TestDatabaseFactory';
+import { TestDatabaseFactory } from '@shared:infra/database/TestDatabaseFactory';
 
 // ---------------------------------------------------------------------------------------------- //
 

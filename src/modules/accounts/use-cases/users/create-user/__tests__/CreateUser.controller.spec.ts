@@ -397,10 +397,14 @@ describe('User Creation integration test', () => {
 
   // *** ---- Hash Validation --------------------------------------------------------------- *** //
   it('should hash the password', async () => {
-    await request(server)
+    const response = await request(server)
       .post('/accounts/users')
       .send({ name, lastName, email, password, passwordConfirmation });
 
-    expect(true).toBeFalsy();
+    const user = response.body;
+
+    const hash = await database.getUserPassword(user.id);
+
+    expect(hash).not.toEqual(password);
   });
 });

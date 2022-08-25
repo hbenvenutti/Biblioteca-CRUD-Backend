@@ -31,8 +31,10 @@ export class CreateUserService {
     private hashProvider: HashProviderInterface
   ) {}
 
+  // -------------------------------------------------------------------------------------------- //
+
   async execute(data: CreateUserRequestDTO): Promise<CreateUserResponse> {
-    const { name, lastName, email, password, passwordConfirmation } = data;
+    const { password, passwordConfirmation } = data;
 
     // *** ---- Compare Passwords ----------------------------------------------------------- *** //
     if (password !== passwordConfirmation) {
@@ -48,6 +50,12 @@ export class CreateUserService {
     }
 
 
+    // *** ---- Data treatment for database ------------------------------------------------- *** //
+    const name = prepareStringToDatabase(data.name);
+    const lastName = prepareStringToDatabase(data.lastName);
+    const email = prepareStringToDatabase(data.email);
+
+
     // *** ---- Verify if user already exists ----------------------------------------------- *** //
     const emailInUse = await this.usersRepository.findByEmail(email);
 
@@ -55,16 +63,16 @@ export class CreateUserService {
       throw new EmailInUseError();
     }
 
+    
     // *** --- Hashes the password ---------------------------------------------------------- *** //
     const passwordHash = await this.hashProvider.hash(password);
 
 
     // *** ---- Creates user in db ---------------------------------------------------------- *** //
     const user = await this.usersRepository.create({
-      // ? ---- Prepare String to database removes useless spaces and etc... ---- ? //
-      name: prepareStringToDatabase(name),
-      lastName: prepareStringToDatabase(lastName),
-      email: prepareStringToDatabase(email),
+      name,
+      lastName,
+      email,
       password: passwordHash
     });
 

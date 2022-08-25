@@ -32,8 +32,25 @@ class UsersRepository implements UsersRepositoryInterface {
     throw new Error('Method not implemented.');
   }
 
-  findByEmail(email: string): Promise<User | undefined> {
-    throw new Error('Method not implemented.');
+  async findByEmail(email: string): Promise<User | undefined> {
+    const document = await this.users.where('email', '==', email).get();
+
+    if (document.empty) {
+      return undefined;
+    }
+
+    const id = document.docs[0].id;
+    const { name, lastName, password } = document.docs[0].data();
+
+    const user = {
+      id,
+      name,
+      lastName,
+      email,
+      password
+    };
+
+    return user;
   }
 
   findById(id: string): Promise<User[]> {

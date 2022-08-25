@@ -5,6 +5,9 @@ import '@shared:containers/index';
 import express, { Request, Response, NextFunction } from 'express';
 import 'express-async-errors';
 
+import swagger from 'swagger-ui-express';
+import yaml from 'yamljs';
+
 import { AppError } from '@errors/App.error';
 import { routes } from '@shared:routes/index.routes';
 
@@ -12,6 +15,8 @@ import { routes } from '@shared:routes/index.routes';
 
 class App {
   server = express();
+  swaggerDocument = yaml.load('./swagger.yml');
+
   constructor() {
     this.middlewares();
     this.routes();
@@ -24,6 +29,7 @@ class App {
 
   routes() {
     this.server.use(routes);
+    this.server.use('/', swagger.serve, swagger.setup(this.swaggerDocument));
   }
 
   exceptionHandler() {

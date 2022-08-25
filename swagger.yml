@@ -1,0 +1,127 @@
+openapi: 3.0.0
+info:
+  title: CRUD Desafio Teppa Backend
+  description: CRUD simples de um sistema de biblioteca.
+  version: 0.1.0
+
+paths:
+  /accounts/users:
+    post:
+      tags:
+        - Accounts
+      summary: Criação de usuários.
+      description: |
+        Rota para adicionar usuários ao banco de dados.
+
+        A senha enviada deve respeitar as seguintes regras:
+        * Conter no mínimo 1 letra maiúscula.
+        * Conter no mínimo 1 número.
+        * Conter no mínimo 1 símbolo.
+        * Ter no mínimo 8 caracteres.
+        * Não conter sequências (1,2,3 | abc) de 3 ou mais dígitos.
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserCreationRequest"
+      responses:
+        201:
+          description: Sucesso!
+          content:
+            application/json:
+              schema:
+              $ref: "#/components/schemas/UserCreationResponse"
+        400:
+          $ref: "#/components/responses/BadRequest"
+        5XX:
+          description: Erro interno do servidor
+          $ref: "#/components/responses/Unexpected"
+
+
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        status:
+          type: string
+      example:
+        message: Something went wrong!
+        status: error
+
+    UserCreationRequest:
+      type: object
+      properties:
+        name:
+          type: string
+
+        lastName:
+          type: string
+
+        email:
+          type: string
+          format: email
+
+        password:
+          type: string
+          format: secret
+
+        passwordConfirmation:
+          type: string
+          format: secret
+
+      example:
+        name: 'foo'
+        lastName: 'bar'
+        email: foobar@example.com
+        password: '@Password248'
+        passwordConfirmation: '@Password248'
+
+
+    UserCreationResponse:
+      type: object
+      properties:
+        id:
+          type: string
+
+        name:
+          type: string
+
+        lastName:
+          type: string
+
+        email:
+          type: string
+          format: email
+
+      example:
+        id: adf8df02fgouh
+        name: 'foo'
+        lastName: 'bar'
+        email: foobar@example.com
+
+  responses:
+    BadRequest:
+      description: |
+        Bad Request
+        Existe algum problema com os dados fornecidos na requisição.
+
+        * Os dados não respeitam as regras de negócio.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+
+    Unexpected:
+      description: |
+        Internal Server Error
+
+        Erro interno do servidor gerado por algum comportamento inesperado.
+
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"

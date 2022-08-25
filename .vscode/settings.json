@@ -20,6 +20,7 @@
     "hash": "secure",
 
     // *** ---- Use Cases ---- *** //
-    "create-user": "controller"
+    "create-user": "controller",
+    "create-session": "controller"
   },
 }

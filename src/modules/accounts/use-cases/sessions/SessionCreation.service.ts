@@ -8,7 +8,7 @@ import { NotFoundError } from '@accounts:errors/NotFound.error';
 import { UsersRepositoryInterface } from '@accounts:repositories-interfaces/UsersRepository.interface';
 
 import { HashProviderInterface } from '@shared:providers/hash/Hash.provider.interface';
-import { TokenProviderInterface } from '@shared:providers/token/Token.provider.interface';
+import { TokenProviderInterface } from '@shared:providers/token/TokenProvider.interface';
 import { ValidationProviderInterface } from '@shared:providers/validation/Validation.provider.interface';
 
 import { UserMap } from '@accounts:mappers/User.map';
@@ -57,7 +57,7 @@ class SessionCreationService {
     const { id } = user;
     const token = this.tokenProvider.sign({ id, email });
 
-    
+
     // *** ---- Returns user without password ----------------------------------------------- *** //
     return {
       user: UserMap.toDto(user),

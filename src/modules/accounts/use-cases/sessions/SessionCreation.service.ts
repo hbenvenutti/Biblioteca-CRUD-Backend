@@ -9,6 +9,7 @@ import { UsersRepositoryInterface } from '@accounts:repositories-interfaces/User
 
 import { HashProviderInterface } from '@shared:providers/hash/Hash.provider.interface';
 import { ValidationProviderInterface } from '@shared:providers/validation/Validation.provider.interface';
+import { UserMap } from '@accounts:mappers/User.map';
 
 // ---------------------------------------------------------------------------------------------- //
 
@@ -34,17 +35,27 @@ class SessionCreationService {
     }
 
     // *** ---- Verify if user exists ------------------------------------------------------- *** //
-    const userExists = await this.usersRepository.findByEmail(email);
+    const user = await this.usersRepository.findByEmail(email);
 
-    if (!userExists) {
+    if (!user) {
       throw new NotFoundError();
     }
 
-    // TODO: Compare passwords
+    // *** ---- Verify if passwords match --------------------------------------------------- *** //
+    const passwordsMatch = await this.hashProvider.compare(password, user.password);
+
+    if (!passwordsMatch) {
+      throw new NotFoundError();
+    }
+
     // TODO: Generate a session token
     // TODO: Return user and session token
-    
-    throw new Error('Method not implemented.');
+    // TODO: Remove password from user
+
+    return {
+      user: UserMap.toDto(user),
+      token: ''
+    };
   }
 }
 

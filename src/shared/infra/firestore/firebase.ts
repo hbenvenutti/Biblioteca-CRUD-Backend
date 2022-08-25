@@ -1,4 +1,4 @@
-import { initializeApp, cert, applicationDefault, ServiceAccount } from 'firebase-admin/app';
+import { initializeApp, cert, ServiceAccount } from 'firebase-admin/app';
 
 // ---------------------------------------------------------------------------------------------- //
 

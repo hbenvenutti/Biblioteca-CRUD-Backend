@@ -8,7 +8,9 @@ import { NotFoundError } from '@accounts:errors/NotFound.error';
 import { UsersRepositoryInterface } from '@accounts:repositories-interfaces/UsersRepository.interface';
 
 import { HashProviderInterface } from '@shared:providers/hash/Hash.provider.interface';
+import { TokenProviderInterface } from '@shared:providers/token/Token.provider.interface';
 import { ValidationProviderInterface } from '@shared:providers/validation/Validation.provider.interface';
+
 import { UserMap } from '@accounts:mappers/User.map';
 
 // ---------------------------------------------------------------------------------------------- //
@@ -23,7 +25,10 @@ class SessionCreationService {
     private hashProvider: HashProviderInterface,
 
     @inject('ValidationProvider')
-    private validationProvider: ValidationProviderInterface
+    private validationProvider: ValidationProviderInterface,
+
+    @inject('tokenProvider')
+    private tokenProvider: TokenProviderInterface
   ) {}
 
   async execute({ email, password }: SessionCreationRequest): Promise<SessionsCreationResponse> {
@@ -48,13 +53,15 @@ class SessionCreationService {
       throw new NotFoundError();
     }
 
-    // TODO: Generate a session token
-    // TODO: Return user and session token
-    // TODO: Remove password from user
+    // *** ---- Signs the session token ----------------------------------------------------- *** //
+    const { id } = user;
+    const token = this.tokenProvider.sign({ id, email });
 
+    
+    // *** ---- Returns user without password ----------------------------------------------- *** //
     return {
       user: UserMap.toDto(user),
-      token: ''
+      token
     };
   }
 }

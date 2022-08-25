@@ -1,6 +1,6 @@
-type Token = string;
+export type Token = string;
 
-type TokenData = {
+export type TokenData = {
   id: string;
   email: string;
 }

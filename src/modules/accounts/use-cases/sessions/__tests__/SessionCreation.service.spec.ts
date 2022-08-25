@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 
 import { NotFoundError } from '@accounts:errors/NotFound.error';
+import { InvalidDataError } from '@accounts:errors/InvalidData.error';
 
 import { UsersRepositoryMock } from '@accounts:repositories-interfaces/mock/UsersRepository.mock';
 import { UsersRepositoryInterface } from '@accounts:repositories-interfaces/UsersRepository.interface';
@@ -12,7 +13,9 @@ import { MockHashProvider } from '@shared:providers/hash/Hash.mock.provider';
 
 import { MockValidationProvider } from '@shared:providers/validation/Validation.mock.provider';
 import { ValidationProviderInterface } from '@shared:providers/validation/Validation.provider.interface';
-import { InvalidDataError } from '@accounts:errors/InvalidData.error';
+
+import { TokenProviderInterface } from '@shared:providers/token/TokenProvider.interface';
+import { TokenMockProvider } from '@shared:providers/token/TokenMockProvider';
 
 // ---------------------------------------------------------------------------------------------- //
 
@@ -20,6 +23,7 @@ describe('Session Creation Service', () => {
   let usersRepository: UsersRepositoryInterface;
   let hashProvider: HashProviderInterface;
   let validationProvider: ValidationProviderInterface;
+  let tokenProvider: TokenProviderInterface;
   let sessionCreationService: SessionCreationService;
 
   const email = 'user@example.com';
@@ -37,8 +41,10 @@ describe('Session Creation Service', () => {
     usersRepository = new UsersRepositoryMock();
     hashProvider = new MockHashProvider();
     validationProvider = new MockValidationProvider();
+    tokenProvider = new TokenMockProvider();
 
-    sessionCreationService = new SessionCreationService(usersRepository, hashProvider, validationProvider);
+    sessionCreationService =
+      new SessionCreationService(usersRepository, hashProvider, validationProvider, tokenProvider);
 
     await usersRepository.create(user);
   });
@@ -107,7 +113,7 @@ describe('Session Creation Service', () => {
       .rejects
       .toEqual(new NotFoundError);
   });
-  
+
 
   // *** ---- Providers  -------------------------------------------------------------------- *** //
   it('should call validation provider', async () => {

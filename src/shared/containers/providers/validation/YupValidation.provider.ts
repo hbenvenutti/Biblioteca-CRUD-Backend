@@ -4,6 +4,7 @@ import yupPassword from 'yup-password';
 import { UserCreationRequest } from '@accounts:dtos/Users.dto';
 import { ValidationProviderInterface } from '@shared:containers/providers/validation/Validation.provider.interface';
 import { hasOnlyLetters } from '@shared:utils/hasOnlyLetters';
+import { SessionCreationRequest } from '@accounts:dtos/Sessions.dto';
 
 // ---------------------------------------------------------------------------------------------- //
 
@@ -57,5 +58,9 @@ export class YupValidationProvider implements ValidationProviderInterface {
     if (!nameHasNoNumbers || !lastNameHasNoNumbers) return false;
 
     return await userCreationSchema.isValid(data);
+  }
+
+  async validateSessionData(data: SessionCreationRequest): Promise<boolean> {
+    throw new Error('Method not implemented.');
   }
 }

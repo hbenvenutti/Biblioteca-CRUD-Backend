@@ -3,6 +3,7 @@ import yupPassword from 'yup-password';
 
 import { CreateUserRequestDTO } from '@accounts/dtos/CreateUserRequest.dto';
 import { ValidationProviderInterface } from '@shared:containers/providers/validation/Validation.provider.interface';
+import { hasOnlyLetters } from '@shared/utils/hasOnlyLetters';
 
 // ---------------------------------------------------------------------------------------------- //
 
@@ -49,6 +50,11 @@ export class YupValidationProvider implements ValidationProviderInterface {
           .minSymbols(this.passwordMinimumSymbols)
           .required()
       });
+
+    const nameHasNoNumbers = hasOnlyLetters(data.name);
+    const lastNameHasNoNumbers = hasOnlyLetters(data.lastName);
+
+    if (!nameHasNoNumbers || !lastNameHasNoNumbers) return false;
 
     return await userCreationSchema.isValid(data);
   }

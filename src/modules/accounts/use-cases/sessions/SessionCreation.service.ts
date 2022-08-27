@@ -27,7 +27,7 @@ class SessionCreationService {
     @inject('ValidationProvider')
     private validationProvider: ValidationProviderInterface,
 
-    @inject('tokenProvider')
+    @inject('TokenProvider')
     private tokenProvider: TokenProviderInterface
   ) {}
 

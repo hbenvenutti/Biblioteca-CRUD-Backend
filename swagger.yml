@@ -1,0 +1,185 @@
+openapi: 3.0.0
+info:
+  title: CRUD Desafio Teppa Backend
+  description: CRUD simples de um sistema de biblioteca.
+  version: 0.1.0
+
+paths:
+  /accounts/users:
+    post:
+      tags:
+        - Accounts
+      summary: Criação de usuários.
+      description: |
+        Rota para adicionar usuários ao banco de dados.
+
+        A senha enviada deve respeitar as seguintes regras:
+        * Conter no mínimo 1 letra maiúscula.
+        * Conter no mínimo 1 número.
+        * Conter no mínimo 1 símbolo.
+        * Ter no mínimo 8 caracteres.
+        * Não conter sequências (1,2,3 | abc) de 3 ou mais dígitos.
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserCreationRequest"
+      responses:
+        201:
+          description: Sucesso!
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+        400:
+          $ref: "#/components/responses/BadRequest"
+        5XX:
+          $ref: "#/components/responses/Unexpected"
+  /accounts/sessions:
+    post:
+      tags:
+        - accounts
+      summary: Login de usuário.
+      description: |
+        Rota para autenticar usuários.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+      responses:
+        201:
+          description: Sucesso!
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LoginResponse"
+        400:
+          $ref: "#/components/responses/BadRequest"
+        404:
+          $ref: "#/components/responses/NotFound"
+        5XX:
+          $ref: "#/components/responses/Unexpected"
+
+
+
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        status:
+          type: string
+      example:
+        message: Something went wrong!
+        status: error
+
+    UserCreationRequest:
+      type: object
+      properties:
+        name:
+          type: string
+
+        lastName:
+          type: string
+
+        email:
+          type: string
+          format: email
+
+        password:
+          type: string
+          format: secret
+
+        passwordConfirmation:
+          type: string
+          format: secret
+
+      example:
+        name: 'foo'
+        lastName: 'bar'
+        email: foobar@example.com
+        password: '*******'
+        passwordConfirmation: '*******'
+
+
+    UserResponse:
+      type: object
+      properties:
+        id:
+          type: string
+
+        name:
+          type: string
+
+        lastName:
+          type: string
+
+        email:
+          type: string
+          format: email
+
+      example:
+        id: adf8df02fgouh
+        name: 'foo'
+        lastName: 'bar'
+        email: foobar@example.com
+
+    LoginRequest:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+          fortmat: secret
+      example:
+        email: user@example.com
+        password: "*******"
+
+    LoginResponse:
+      type: object
+      properties:
+        user:
+          type: object
+          schema:
+            $ref: "#components/schemas/UserResponse"
+        token:
+          type: string
+      example:
+        token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+
+  responses:
+    BadRequest:
+      description: |
+        Bad Request
+        Existe algum problema com os dados fornecidos na requisição.
+
+        * Os dados não respeitam as regras de negócio.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+
+    NotFound:
+      description: |
+        O recurso não foi encontrado.
+
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+
+    Unexpected:
+      description: |
+        Internal Server Error
+
+        Erro interno do servidor gerado por algum comportamento inesperado.
+
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"

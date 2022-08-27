@@ -1,15 +1,26 @@
 {
   "cSpell.words": [
     "commitlint",
+    "Dont",
+    "dtos",
     "firestore",
     "linebreak",
+    "middlewares",
     "nonblock",
     "nonwords",
     "parens",
-    "stroustrup"
+    "stroustrup",
+    "tsyringe"
   ],
   "material-icon-theme.folders.associations": {
     "books": "context",
-    "firestore": "database"
-  }
+    "firestore": "database",
+
+    // *** ---- Providers ---- *** //
+    "hash": "secure",
+
+    // *** ---- Use Cases ---- *** //
+    "create-user": "controller",
+    "create-session": "controller"
+  },
 }

@@ -44,10 +44,7 @@ describe('Session Creation Controller', () => {
 
     const { body } = response;
 
-    console.log(body);
-
     expect(response.status).toEqual(201);
-
 
     expect(body).toHaveProperty('user');
     expect(body.user).toHaveProperty('id');

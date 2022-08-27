@@ -1,12 +1,13 @@
 import request from 'supertest';
 
 import server from '@shared:app/App';
-import { TestDatabaseFactory } from '@shared/infra/database/TestDatabaseFactory';
+import { TestDatabaseFactory } from '@shared:infra/database/TestDatabaseFactory';
+import { TestDatabaseInterface } from '@shared:infra/database/TestDatabase.interface';
 
 // ---------------------------------------------------------------------------------------------- //
 
 describe('User Creation integration test', () => {
-  const database = new TestDatabaseFactory().testDatabase;
+  const database: TestDatabaseInterface = new TestDatabaseFactory().testDatabase;
 
   const name = 'john';
   const lastName = 'doe';

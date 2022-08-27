@@ -1,5 +1,7 @@
-import { CreateUserRequestDTO } from '@accounts:dtos/CreateUserRequest.dto';
+import { SessionCreationRequest } from '@accounts:dtos/Sessions.dto';
+import { UserCreationRequest } from '@accounts:dtos/Users.dto';
 
 export interface ValidationProviderInterface {
-  validateUserCreationData(data: CreateUserRequestDTO): Promise<boolean>;
+  validateUserCreationData(data: UserCreationRequest): Promise<boolean>;
+  validateSessionData(data: SessionCreationRequest): Promise<boolean>;
 }

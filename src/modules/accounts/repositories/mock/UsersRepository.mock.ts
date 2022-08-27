@@ -1,4 +1,4 @@
-import { CreateUserDTO } from '@accounts:dtos/CreateUser.dto';
+import { UserCreationData } from '@accounts:dtos/Users.dto';
 import { User } from '@accounts:entities/User';
 import { UsersRepositoryInterface } from '@accounts:repositories-interfaces/UsersRepository.interface';
 
@@ -7,7 +7,7 @@ import { UsersRepositoryInterface } from '@accounts:repositories-interfaces/User
 export class UsersRepositoryMock implements UsersRepositoryInterface {
   private users: User[] = [];
 
-  async create(data: CreateUserDTO): Promise<User> {
+  async create(data: UserCreationData): Promise<User> {
     const { name, lastName, password, email } = data;
 
     const id = `${name}${lastName}${email}`;

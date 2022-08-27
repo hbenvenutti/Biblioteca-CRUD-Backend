@@ -1,9 +1,10 @@
 import * as yup from 'yup';
 import yupPassword from 'yup-password';
 
-import { CreateUserRequestDTO } from '@accounts/dtos/CreateUserRequest.dto';
+import { UserCreationRequest } from '@accounts:dtos/Users.dto';
 import { ValidationProviderInterface } from '@shared:containers/providers/validation/Validation.provider.interface';
-import { hasOnlyLetters } from '@shared/utils/hasOnlyLetters';
+import { hasOnlyLetters } from '@shared:utils/hasOnlyLetters';
+import { SessionCreationRequest } from '@accounts:dtos/Sessions.dto';
 
 // ---------------------------------------------------------------------------------------------- //
 
@@ -20,7 +21,7 @@ export class YupValidationProvider implements ValidationProviderInterface {
     yupPassword(yup);
   }
 
-  async validateUserCreationData(data: CreateUserRequestDTO): Promise<boolean> {
+  async validateUserCreationData(data: UserCreationRequest): Promise<boolean> {
     const userCreationSchema = yup
       .object()
       .shape({
@@ -57,5 +58,22 @@ export class YupValidationProvider implements ValidationProviderInterface {
     if (!nameHasNoNumbers || !lastNameHasNoNumbers) return false;
 
     return await userCreationSchema.isValid(data);
+  }
+
+  async validateSessionData(data: SessionCreationRequest): Promise<boolean> {
+    const sessionCreationSchema = yup
+      .object()
+      .shape({
+        email: yup
+          .string()
+          .email()
+          .required(),
+
+        password: yup
+          .string()
+          .required()
+      });
+
+    return await sessionCreationSchema.isValid(data);
   }
 }

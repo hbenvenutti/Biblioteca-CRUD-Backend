@@ -61,6 +61,19 @@ export class YupValidationProvider implements ValidationProviderInterface {
   }
 
   async validateSessionData(data: SessionCreationRequest): Promise<boolean> {
-    throw new Error('Method not implemented.');
+    const sessionCreationSchema = yup
+      .object()
+      .shape({
+        email: yup
+          .string()
+          .email()
+          .required(),
+
+        password: yup
+          .string()
+          .required()
+      });
+
+    return await sessionCreationSchema.isValid(data);
   }
 }

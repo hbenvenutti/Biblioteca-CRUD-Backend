@@ -31,12 +31,37 @@ paths:
           content:
             application/json:
               schema:
-              $ref: "#/components/schemas/UserCreationResponse"
+                $ref: "#/components/schemas/UserResponse"
         400:
           $ref: "#/components/responses/BadRequest"
         5XX:
-          description: Erro interno do servidor
           $ref: "#/components/responses/Unexpected"
+  /accounts/sessions:
+    post:
+      tags:
+        - accounts
+      summary: Login de usuário.
+      description: |
+        Rota para autenticar usuários.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+      responses:
+        201:
+          description: Sucesso!
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LoginResponse"
+        400:
+          $ref: "#/components/responses/BadRequest"
+        404:
+          $ref: "#/components/responses/NotFound"
+        5XX:
+          $ref: "#/components/responses/Unexpected"
+
 
 
 components:
@@ -77,11 +102,11 @@ components:
         name: 'foo'
         lastName: 'bar'
         email: foobar@example.com
-        password: '@Password248'
-        passwordConfirmation: '@Password248'
+        password: '*******'
+        passwordConfirmation: '*******'
 
 
-    UserCreationResponse:
+    UserResponse:
       type: object
       properties:
         id:
@@ -103,6 +128,30 @@ components:
         lastName: 'bar'
         email: foobar@example.com
 
+    LoginRequest:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+          fortmat: secret
+      example:
+        email: user@example.com
+        password: "*******"
+
+    LoginResponse:
+      type: object
+      properties:
+        user:
+          type: object
+          schema:
+            $ref: "#components/schemas/UserResponse"
+        token:
+          type: string
+      example:
+        token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+
   responses:
     BadRequest:
       description: |
@@ -110,6 +159,15 @@ components:
         Existe algum problema com os dados fornecidos na requisição.
 
         * Os dados não respeitam as regras de negócio.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+
+    NotFound:
+      description: |
+        O recurso não foi encontrado.
+
       content:
         application/json:
           schema:

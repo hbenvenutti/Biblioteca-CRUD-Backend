@@ -137,6 +137,10 @@ describe('Session Creation Service', () => {
   // -------------------------------------------------------------------------------------------- //
 
   it('should call token provider', async () => {
-    expect(true).toBeFalsy();
+    const sign = jest.spyOn(tokenProvider, 'sign');
+
+    await sessionCreationService.execute({ email, password });
+
+    expect(sign).toHaveBeenCalled();
   });
 });

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { SessionCreationController } from '@accounts:use-cases/sessions/SessionCreation.controller';
+import { SessionCreationController } from '@accounts:use-cases/sessions/create-session/SessionCreation.controller';
 
 // ---------------------------------------------------------------------------------------------- //
 

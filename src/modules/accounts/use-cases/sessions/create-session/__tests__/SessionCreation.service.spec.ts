@@ -6,7 +6,7 @@ import { InvalidDataError } from '@accounts:errors/InvalidData.error';
 import { UsersRepositoryMock } from '@accounts:repositories-interfaces/mock/UsersRepository.mock';
 import { UsersRepositoryInterface } from '@accounts:repositories-interfaces/UsersRepository.interface';
 
-import { SessionCreationService } from '@accounts:use-cases/sessions/SessionCreation.service';
+import { SessionCreationService } from '@accounts:use-cases/sessions/create-session/SessionCreation.service';
 
 import { HashProviderInterface } from '@shared:providers/hash/Hash.provider.interface';
 import { MockHashProvider } from '@shared:providers/hash/Hash.mock.provider';

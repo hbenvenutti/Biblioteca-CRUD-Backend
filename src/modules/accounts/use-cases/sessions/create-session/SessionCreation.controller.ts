@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
-import { SessionCreationService } from '@accounts:use-cases/sessions/SessionCreation.service';
+import { SessionCreationService } from '@accounts:use-cases/sessions/create-session/SessionCreation.service';
 
 // ---------------------------------------------------------------------------------------------- //
 

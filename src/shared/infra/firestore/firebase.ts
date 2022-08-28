@@ -2,10 +2,12 @@ import { initializeApp, cert, ServiceAccount } from 'firebase-admin/app';
 
 // ---------------------------------------------------------------------------------------------- //
 
+const { privateKey } = JSON.parse(process.env.PRIVATE_KEY as string);
+
 const serviceAccount: ServiceAccount = {
   projectId: process.env.PROJECT_ID,
   clientEmail: process.env.CLIENT_EMAIL,
-  privateKey: process.env.PRIVATE_KEY
+  privateKey
 };
 
 const testServiceAccount = {

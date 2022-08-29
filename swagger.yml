@@ -39,7 +39,7 @@ paths:
   /accounts/sessions:
     post:
       tags:
-        - accounts
+        - Accounts
       summary: Login de usuário.
       description: |
         Rota para autenticar usuários.

@@ -8,4 +8,7 @@
 export interface TestDatabaseInterface {
   deleteAllUsers(): Promise<void>;
   getUserPassword(id: string): Promise<string>
+  seedUser(): Promise<void>;
+
+  deleteAllBooks(): Promise<void>;
 }

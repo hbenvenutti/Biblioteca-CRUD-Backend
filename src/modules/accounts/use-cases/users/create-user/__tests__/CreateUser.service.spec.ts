@@ -1,8 +1,9 @@
 import 'reflect-metadata';
 
 import { EmailInUseError } from '@accounts:errors/EmailInUse.error';
-import { InvalidDataError } from '@accounts:errors/InvalidData.error';
 import { PasswordsDontMatchError } from '@accounts:errors/PasswordsDontMatch.error';
+
+import { InvalidDataError } from '@errors/InvalidData.error';
 
 import { UsersRepositoryInterface } from '@accounts:repositories-interfaces/UsersRepository.interface';
 import { UsersRepositoryMock } from '@accounts:repositories-interfaces/mock/UsersRepository.mock';

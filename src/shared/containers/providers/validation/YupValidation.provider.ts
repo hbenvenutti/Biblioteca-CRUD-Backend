@@ -5,6 +5,7 @@ import { UserCreationRequest } from '@accounts:dtos/Users.dto';
 import { ValidationProviderInterface } from '@shared:containers/providers/validation/Validation.provider.interface';
 import { hasOnlyLetters } from '@shared:utils/hasOnlyLetters';
 import { SessionCreationRequest } from '@accounts:dtos/Sessions.dto';
+import { BookCreationData } from '@books:dtos/Book';
 
 // ---------------------------------------------------------------------------------------------- //
 
@@ -75,5 +76,19 @@ export class YupValidationProvider implements ValidationProviderInterface {
       });
 
     return await sessionCreationSchema.isValid(data);
+  }
+
+  async validateBookCreationData(data: BookCreationData): Promise<boolean> {
+    const bookCreationSchema = yup
+      .object()
+      .shape({
+        title: yup.string().required(),
+        author: yup.string().required(),
+        publisher: yup.string().required(),
+        edition: yup.string().required(),
+        synopsis: yup.string().required()
+      });
+
+    return await bookCreationSchema.isValid(data);
   }
 }

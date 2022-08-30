@@ -39,7 +39,7 @@ class TestFirestore implements TestDatabaseInterface {
   async seedUser(): Promise<void> {
     // ? ---- Only e-mail and passwords are needed for seeding at the moment. ----------------- ? //
     // ? ---- Firestore accepts the request without all properties ---------------------------- ? //
-    const { email, passwordHash: password } = new TestUser();
+    const { email, passwordHash: password } = await TestUser.generateTestUser();
 
     await this.database
       .collection('users')

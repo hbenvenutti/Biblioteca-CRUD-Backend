@@ -1,19 +1,37 @@
-import { UserCreationRequest } from '@accounts:dtos/Users.dto';
 import { HashProviderInterface } from '@shared:containers/providers/hash/Hash.provider.interface';
 import { ProviderFactory } from '@shared:containers/providers/ProviderFactory';
 
 // ---------------------------------------------------------------------------------------------- //
 
+export interface TestUserData {
+  name: string;
+  lastName: string;
+  email: string;
+  password: string;
+  passwordConfirmation: string;
+  passwordHash: string;
+}
 /**
  * Class to standardize user data along tests and seeds
  */
-export class TestUser implements UserCreationRequest {
-  private hashProvider: HashProviderInterface = new ProviderFactory().hashProvider;
+export class TestUser {
+  static async generateTestUser(): Promise<TestUserData> {
+    const hashProvider: HashProviderInterface = new ProviderFactory().hashProvider;
 
-  name = 'john';
-  lastName = 'doe';
-  email = 'johndoe@example.com';
-  password = '@Password248';
-  passwordConfirmation = this.password;
-  passwordHash = this.hashProvider.hash(this.password);
+    const name = 'john';
+    const email = 'johndoe@example.com';
+    const lastName = 'doe';
+    const password = '@Password248';
+    const passwordConfirmation = password;
+    const passwordHash = await hashProvider.hash(password);
+
+    return {
+      name,
+      lastName,
+      email,
+      password,
+      passwordConfirmation,
+      passwordHash
+    };
+  }
 }

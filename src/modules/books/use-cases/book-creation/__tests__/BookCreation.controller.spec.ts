@@ -58,8 +58,6 @@ describe('book creation controller', () => {
 
     const { body } = response;
 
-    console.log(body);
-
     expect(response.status).toEqual(201);
 
     expect(body).toHaveProperty('title');
@@ -251,7 +249,7 @@ describe('book creation controller', () => {
     expect(body.status).toEqual('error');
   });
 
-  // ---- Title --------------------------------------------------------------------------------- //
+  // ---- Author --------------------------------------------------------------------------------- //
 
   it('should fail if author is not provided', async () => {
     const invalidBook: InvalidBook = new TestBook();

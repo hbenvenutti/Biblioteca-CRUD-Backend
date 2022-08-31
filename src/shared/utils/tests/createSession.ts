@@ -6,7 +6,7 @@ import { generateTestUser } from '@accounts:entities/TestUser';
 
 // ---------------------------------------------------------------------------------------------- //
 
-const createSession = async () => {
+const createSession = async (): Promise<string> => {
   const { email, password } = await generateTestUser();
 
   const session = await request(server)

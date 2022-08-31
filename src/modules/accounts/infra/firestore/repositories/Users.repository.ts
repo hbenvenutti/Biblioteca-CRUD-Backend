@@ -53,11 +53,16 @@ class UsersRepository implements UsersRepositoryInterface {
     return user;
   }
 
-  findById(id: string): Promise<User[]> {
-    throw new Error('Method not implemented.');
+  async findById(id: string): Promise<User | undefined> {
+    const doc = await this.users.doc(id).get();
+
+    console.log('doc: ', doc);
+    console.log('doc.data(): ', doc.data());
+
+    return doc.exists ? doc.data() as User : undefined;
   }
 
-  delete(id: string): Promise<void> {
+  delete(_: string): Promise<void> {
     throw new Error('Method not implemented.');
   }
 }

@@ -397,8 +397,11 @@ describe('User Creation integration test', () => {
 
     const { body } = response;
 
-    expect(response.status).toEqual(500);
+    expect(response.status).toEqual(400);
+    
     expect(body).toHaveProperty('message');
+    expect(body.message).toEqual('invalid data');
+
     expect(body).toHaveProperty('status');
     expect(body.status).toEqual('error');
   });
@@ -414,8 +417,11 @@ describe('User Creation integration test', () => {
 
     const { body } = response;
 
-    expect(response.status).toEqual(500);
+    expect(response.status).toEqual(400);
+
     expect(body).toHaveProperty('message');
+    expect(body.message).toEqual('invalid data');
+
     expect(body).toHaveProperty('status');
     expect(body.status).toEqual('error');
   });

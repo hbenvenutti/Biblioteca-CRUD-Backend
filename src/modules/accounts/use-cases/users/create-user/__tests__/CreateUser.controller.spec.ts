@@ -63,6 +63,7 @@ describe('User Creation integration test', () => {
   });
 
   // *** ---- String Treatment -------------------------------------------------------------- *** //
+  // ? ---- e-mail with spaces fails inside validation tests ---------------------------------- ? //
   it('should remove useless spaces from name', async () => {
     invalidUser.name = ' john ';
 
@@ -89,21 +90,6 @@ describe('User Creation integration test', () => {
 
     expect(response.status).toEqual(201);
     expect(body.lastName).toEqual('doe');
-  });
-
-  // -------------------------------------------------------------------------------------------- //
-
-  it('should remove useless spaces from e-mail', async () => {
-    invalidUser.email = ' johndoe@example.com ';
-
-    const response = await request(server)
-      .post('/accounts/users')
-      .send(invalidUser);
-
-    const { body } = response;
-
-    expect(response.status).toEqual(201);
-    expect(body.email).toEqual('johndoe@example.com');
   });
 
   // -------------------------------------------------------------------------------------------- //

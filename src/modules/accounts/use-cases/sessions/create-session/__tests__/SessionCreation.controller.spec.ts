@@ -2,33 +2,31 @@ import request from 'supertest';
 
 import server from '@shared:app/App';
 
-import { UserCreationRequest } from '@accounts:dtos/Users.dto';
 import { TestDatabaseInterface } from '@shared:infra/database/TestDatabase.interface';
 import { TestDatabaseFactory } from '@shared:infra/database/TestDatabaseFactory';
+import { generateTestUser, TestUserData } from '@accounts:entities/TestUser';
 
 // ---------------------------------------------------------------------------------------------- //
 
 describe('Session Creation Controller', () => {
   const database: TestDatabaseInterface = new TestDatabaseFactory().testDatabase;
 
-  const name = 'john';
-  const lastName = 'doe';
-  const email = 'johndoe@example.com';
-  const password = '@Password12';
+  let email: string;
+  let password: string;
 
-  const user: UserCreationRequest = {
-    name,
-    lastName,
-    email,
-    password,
-    passwordConfirmation:
-    password
-  };
+  let user: TestUserData;
 
   beforeAll(async () => {
+    user = await generateTestUser();
+
     await request(server)
       .post('/accounts/users')
       .send(user);
+  });
+
+  beforeEach(async () => {
+    email = user.email;
+    password = user.password;
   });
 
   // -------------------------------------------------------------------------------------------- //

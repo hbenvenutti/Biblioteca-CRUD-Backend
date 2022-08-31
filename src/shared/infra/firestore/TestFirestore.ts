@@ -1,6 +1,6 @@
 import { TestDatabaseInterface } from '@shared:infra/database/TestDatabase.interface';
 import { database }from '@firestore/firestore';
-import { TestUser } from '@accounts:entities/TestUser';
+import { generateTestUser } from '@accounts:entities/TestUser';
 
 // ---------------------------------------------------------------------------------------------- //
 
@@ -38,8 +38,8 @@ class TestFirestore implements TestDatabaseInterface {
 
   async seedUser(): Promise<void> {
     // ? ---- Only e-mail and passwords are needed for seeding at the moment. ----------------- ? //
-    // ? ---- Firestore accepts the request without all properties ---------------------------- ? //
-    const { email, passwordHash: password } = await TestUser.generateTestUser();
+    // ? ---- Firestore accepts the request without any property ------------------------------ ? //
+    const { email, passwordHash: password } = await generateTestUser();
 
     await this.database
       .collection('users')

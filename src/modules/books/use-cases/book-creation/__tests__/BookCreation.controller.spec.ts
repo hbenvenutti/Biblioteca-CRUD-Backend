@@ -13,7 +13,7 @@ import { createSession } from '@shared:utils/tests/createSession';
 describe('book creation controller', () => {
   const database: TestDatabaseInterface = new TestDatabaseFactory().testDatabase;
 
-  const book = new TestBook();
+  let book: TestBook;
 
   let token: string;
 
@@ -27,6 +27,8 @@ describe('book creation controller', () => {
 
   beforeEach(async () => {
     await database.deleteAllBooks();
+
+    book = new TestBook();
   });
 
   afterAll(async () => {
@@ -84,6 +86,134 @@ describe('book creation controller', () => {
 
     expect(response.status).toEqual(201);
     expect(body).toHaveProperty('id');
+  });
+
+  // ---- Useless Spaces ------------------------------------------------------------------------ //
+
+  it('should remove useless spaces from title', async () => {
+    book.title = ' title ';
+
+    const response = await request(server)
+      .post('/books')
+      .send(book)
+      .set({ authorization: `bearer ${token}` });
+
+    const { body } = response;
+
+    expect(response.status).toEqual(201);
+    expect(body.title).toEqual('title');
+  });
+
+  // -------------------------------------------------------------------------------------------- //
+
+  it('should remove useless spaces from author', async () => {
+    book.author = ' author ';
+
+    const response = await request(server)
+      .post('/books')
+      .send(book)
+      .set({ authorization: `bearer ${token}` });
+
+    const { body } = response;
+
+    expect(response.status).toEqual(201);
+    expect(body.author).toEqual('author');
+  });
+
+  // -------------------------------------------------------------------------------------------- //
+
+  it('should remove useless spaces from publisher', async () => {
+    book.publisher = ' publisher ';
+
+    const response = await request(server)
+      .post('/books')
+      .send(book)
+      .set({ authorization: `bearer ${token}` });
+
+    const { body } = response;
+
+    expect(response.status).toEqual(201);
+    expect(body.publisher).toEqual('publisher');
+  });
+
+  // -------------------------------------------------------------------------------------------- //
+
+  it('should remove useless spaces from edition', async () => {
+    book.edition = ' edition ';
+
+    const response = await request(server)
+      .post('/books')
+      .send(book)
+      .set({ authorization: `bearer ${token}` });
+
+    const { body } = response;
+
+    expect(response.status).toEqual(201);
+    expect(body.edition).toEqual('edition');
+  });
+
+  // ---- Lowercase ----------------------------------------------------------------------------- //
+
+  it('should turn title into lowercase', async () => {
+    book.title = 'TITLE';
+
+    const response = await request(server)
+      .post('/books')
+      .send(book)
+      .set({ authorization: `bearer ${token}` });
+
+    const { body } = response;
+
+    expect(response.status).toEqual(201);
+    expect(body.title).toEqual('title');
+  });
+
+  // -------------------------------------------------------------------------------------------- //
+
+  it('should turn author into lowercase', async () => {
+    book.author = 'AUTHOR';
+
+    const response = await request(server)
+      .post('/books')
+      .send(book)
+      .set({ authorization: `bearer ${token}` });
+
+    const { body } = response;
+
+    expect(response.status).toEqual(201);
+    expect(body.author).toEqual('author');
+  });
+
+  // -------------------------------------------------------------------------------------------- //
+
+  it('should turn publisher into lowercase', async () => {
+    book.publisher = 'PUBLISHER';
+
+    const response = await request(server)
+      .post('/books')
+      .send(book)
+      .set({ authorization: `bearer ${token}` });
+
+    const { body } = response;
+
+    expect(response.status).toEqual(201);
+    expect(body.publisher).toEqual('publisher');
+  });
+
+  // -------------------------------------------------------------------------------------------- //
+
+  it('should turn edition into lowercase', async () => {
+    book.edition = 'EDITION';
+
+    const response = await request(server)
+      .post('/books')
+      .send(book)
+      .set({ authorization: `bearer ${token}` });
+
+    const { body } = response;
+
+    expect(response.status).toEqual(201);
+    expect(body.edition).toEqual('edition');
   });
 
   // *** ---- Data Validation --------------------------------------------------------------- *** //

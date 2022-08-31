@@ -28,11 +28,13 @@ export class YupValidationProvider implements ValidationProviderInterface {
       .shape({
         name: yup
           .string()
+          .strict()
           .min(this.nameMinimum)
           .required(),
 
         lastName: yup
           .string()
+          .strict()
           .min(this.nameMinimum)
           .required(),
 
@@ -72,6 +74,7 @@ export class YupValidationProvider implements ValidationProviderInterface {
 
         password: yup
           .string()
+          .strict()
           .required()
       });
 
@@ -82,11 +85,11 @@ export class YupValidationProvider implements ValidationProviderInterface {
     const bookCreationSchema = yup
       .object()
       .shape({
-        title: yup.string().required(),
-        author: yup.string().required(),
-        publisher: yup.string().required(),
-        edition: yup.string().required(),
-        synopsis: yup.string().required()
+        title: yup.string().strict().required(),
+        author: yup.string().strict().required(),
+        publisher: yup.string().strict().required(),
+        edition: yup.string().strict().required(),
+        synopsis: yup.string().strict().required()
       });
 
     return await bookCreationSchema.isValid(data);

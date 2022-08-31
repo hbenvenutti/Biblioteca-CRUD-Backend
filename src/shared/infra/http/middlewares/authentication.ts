@@ -1,4 +1,4 @@
-import { Request, NextFunction } from 'express';
+import { Request, Response, NextFunction } from 'express';
 
 import { ProviderFactory } from '@shared:containers/providers/ProviderFactory';
 import { TokenProviderInterface } from '@shared:containers/providers/token/TokenProvider.interface';

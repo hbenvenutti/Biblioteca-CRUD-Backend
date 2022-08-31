@@ -1,14 +1,13 @@
 import request from 'supertest';
 
 import server from '@shared:app/App';
-import { TestUser } from '@accounts:entities/TestUser';
+import { generateTestUser } from '@accounts:entities/TestUser';
 
 
 // ---------------------------------------------------------------------------------------------- //
 
 const createSession = async () => {
-  const { email, password } = await TestUser.generateTestUser();
-
+  const { email, password } = await generateTestUser();
 
   const session = await request(server)
     .post('/accounts/sessions')

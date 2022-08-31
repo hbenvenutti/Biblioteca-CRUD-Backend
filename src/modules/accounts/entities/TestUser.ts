@@ -11,30 +11,8 @@ export interface TestUserData {
   passwordConfirmation: string;
   passwordHash: string;
 }
-/**
- * Class to standardize user data along tests and seeds
- */
-export class TestUser {
-  static async generateTestUser(): Promise<TestUserData> {
-    const hashProvider: HashProviderInterface = new ProviderFactory().hashProvider;
 
-    const name = 'john';
-    const email = 'johndoe@example.com';
-    const lastName = 'doe';
-    const password = '@Password248';
-    const passwordConfirmation = password;
-    const passwordHash = await hashProvider.hash(password);
-
-    return {
-      name,
-      lastName,
-      email,
-      password,
-      passwordConfirmation,
-      passwordHash
-    };
-  }
-}
+// ---------------------------------------------------------------------------------------------- //
 
 export interface InvalidUser {
   name?: string | boolean;
@@ -43,3 +21,26 @@ export interface InvalidUser {
   password?: string | boolean;
   passwordConfirmation?: string | boolean
 }
+
+// ---------------------------------------------------------------------------------------------- //
+
+/**
+ * Function that returns a user for test.
+ */
+export const generateTestUser = async (): Promise<TestUserData> => {
+  const hashProvider: HashProviderInterface = new ProviderFactory().hashProvider;
+  const password = '@Password248';
+  const user = {
+    password,
+    name: 'john',
+    email: 'johndoe@example.com',
+    lastName: 'doe',
+    passwordConfirmation: password,
+    passwordHash: await hashProvider.hash(password)
+
+  };
+
+  return user;
+};
+
+

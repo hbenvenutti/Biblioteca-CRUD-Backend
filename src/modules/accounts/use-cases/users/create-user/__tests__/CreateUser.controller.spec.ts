@@ -63,8 +63,22 @@ describe('User Creation integration test', () => {
   });
 
   // *** ---- String Treatment -------------------------------------------------------------- *** //
-  it('should remove useless spaces', async () => {
+  it('should remove useless spaces from name', async () => {
     invalidUser.name = ' john ';
+
+    const response = await request(server)
+      .post('/accounts/users')
+      .send(invalidUser);
+
+    const { body } = response;
+
+    expect(response.status).toEqual(201);
+    expect(body.name).toEqual('john');
+  });
+
+  // -------------------------------------------------------------------------------------------- //
+
+  it('should remove useless spaces from last name', async () => {
     invalidUser.lastName = ' doe ';
 
     const response = await request(server)
@@ -74,16 +88,27 @@ describe('User Creation integration test', () => {
     const { body } = response;
 
     expect(response.status).toEqual(201);
-    expect(body.name).toEqual('john');
     expect(body.lastName).toEqual('doe');
+  });
+
+  // -------------------------------------------------------------------------------------------- //
+
+  it('should remove useless spaces from e-mail', async () => {
+    invalidUser.email = ' johndoe@example.com ';
+
+    const response = await request(server)
+      .post('/accounts/users')
+      .send(invalidUser);
+
+    const { body } = response;
+
+    expect(response.status).toEqual(201);
     expect(body.email).toEqual('johndoe@example.com');
   });
 
   // -------------------------------------------------------------------------------------------- //
 
-  it('should turn strings into lowercase', async () => {
-    invalidUser.name = 'John';
-    invalidUser.lastName = 'doE';
+  it('should turn e-mail into lowercase', async () => {
     invalidUser.email = 'JOHNDOE@EXAMPLE.COM';
 
     const response = await request(server)
@@ -93,9 +118,37 @@ describe('User Creation integration test', () => {
     const { body } = response;
 
     expect(response.status).toEqual(201);
-    expect(body.name).toEqual('john');
-    expect(body.lastName).toEqual('doe');
     expect(body.email).toEqual('johndoe@example.com');
+  });
+
+  // -------------------------------------------------------------------------------------------- //
+
+  it('should turn name into lowercase', async () => {
+    invalidUser.name = 'John';
+
+    const response = await request(server)
+      .post('/accounts/users')
+      .send(invalidUser);
+
+    const { body } = response;
+
+    expect(response.status).toEqual(201);
+    expect(body.name).toEqual('john');
+  });
+
+  // -------------------------------------------------------------------------------------------- //
+
+  it('should turn last name into lowercase', async () => {
+    invalidUser.lastName = 'doE';
+
+    const response = await request(server)
+      .post('/accounts/users')
+      .send(invalidUser);
+
+    const { body } = response;
+
+    expect(response.status).toEqual(201);
+    expect(body.lastName).toEqual('doe');
   });
 
 

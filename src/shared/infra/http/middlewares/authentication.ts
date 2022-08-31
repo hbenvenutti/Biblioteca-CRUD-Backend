@@ -19,7 +19,7 @@ const authentication = async (request: Request, _: Response, next: NextFunction)
     throw new UnauthorizedError();
   }
 
-  const [ , token ] = authorization;
+  const [ , token ] = authorization.split(' ');
 
   try {
     const { id } = tokenProvider.verify(token);

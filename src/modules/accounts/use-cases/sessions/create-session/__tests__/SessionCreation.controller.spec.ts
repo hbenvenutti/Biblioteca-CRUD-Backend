@@ -159,4 +159,20 @@ describe('Session Creation Controller', () => {
     expect(body).toHaveProperty('status');
     expect(body.status).toEqual('error');
   });
+
+  // -------------------------------------------------------------------------------------------- //
+
+  it('should fail if password is not a string', async () => {
+    const response = await request(server).post('/accounts/sessions').send({ email, password: true });
+
+    const { body } = response;
+
+    expect(response.status).toEqual(400);
+
+    expect(body).toHaveProperty('message');
+    expect(body.message).toEqual('invalid data');
+
+    expect(body).toHaveProperty('status');
+    expect(body.status).toEqual('error');
+  });
 });

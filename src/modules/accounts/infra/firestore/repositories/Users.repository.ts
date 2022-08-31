@@ -56,8 +56,7 @@ class UsersRepository implements UsersRepositoryInterface {
   async findById(id: string): Promise<User | undefined> {
     const doc = await this.users.doc(id).get();
 
-    console.log('doc: ', doc);
-    console.log('doc.data(): ', doc.data());
+    // console.log('doc.data(): ', doc.data());
 
     return doc.exists ? doc.data() as User : undefined;
   }

@@ -35,3 +35,11 @@ export class TestUser {
     };
   }
 }
+
+export interface InvalidUser {
+  name?: string | boolean;
+  lastName?: string | boolean;
+  email?: string | boolean;
+  password?: string | boolean;
+  passwordConfirmation?: string | boolean
+}

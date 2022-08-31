@@ -61,11 +61,72 @@ paths:
           $ref: "#/components/responses/NotFound"
         5XX:
           $ref: "#/components/responses/Unexpected"
-
-
+  /books:
+    post:
+      tags:
+        - Books
+      summary: Criação de livros.
+      description: |
+        Rota para a adicionar os livros à biblioteca.
+      security:
+        - BearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BookRequest"
+      responses:
+        201:
+          description: Sucesso!
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BookResponse"
+        400:
+          $ref: "#/components/responses/BadRequest"
+        401:
+          $ref: "#/components/responses/Unauthorized"
+        5XX:
+          $ref: "#/components/responses/Unexpected"
 
 components:
   schemas:
+    BookRequest:
+      type: object
+      properties:
+        title:
+          type: string
+        author:
+          type: string
+        publisher:
+          type: string
+        edition:
+          type: string
+        synopsis:
+          type: string
+      example:
+        title: 'O Senhor dos Anéis: A Sociedade do Anel'
+        author: 'J.R.R. Tolkien'
+        publisher: 'Harper Collins'
+        edition: '2019'
+        synopsis: |
+          O volume inicial de O Senhor dos Anéis, lançado originalmente em julho de 1954,
+          foi o primeiro grande épico de fantasia moderno, conquistando milhões de leitores
+          e se tornando o padrão de referência para todas as outras obras do gênero até hoje.
+          A imaginação prodigiosa de J.R.R. Tolkien e seu conhecimento profundo das antigas
+          mitologias da Europa permitiram que ele criasse um universo tão complexo e convincente
+          quanto o mundo real.
+
+    BookResponse:
+      allOf:
+        - $ref: "#/components/schemas/BookRequest"
+        - type: object
+          properties:
+            id:
+              type: string;
+          example:
+            id: adf8df02fgouh
+
     Error:
       type: object
       properties:
@@ -153,6 +214,16 @@ components:
         token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
 
   responses:
+    Unauthorized:
+      description: |
+        Unauthorized
+
+        Autenticação necessária para acessar a rota.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+
     BadRequest:
       description: |
         Bad Request
@@ -183,3 +254,9 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/Error"
+
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

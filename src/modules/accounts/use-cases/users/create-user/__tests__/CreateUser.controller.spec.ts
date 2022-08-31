@@ -3,7 +3,7 @@ import request from 'supertest';
 import server from '@shared:app/App';
 import { TestDatabaseFactory } from '@shared:infra/database/TestDatabaseFactory';
 import { TestDatabaseInterface } from '@shared:infra/database/TestDatabase.interface';
-import { TestUserData, TestUser, InvalidUser } from '@accounts:entities/TestUser';
+import { TestUserData, InvalidUser, generateTestUser } from '@accounts:entities/TestUser';
 
 // ---------------------------------------------------------------------------------------------- //
 
@@ -14,13 +14,13 @@ describe('User Creation integration test', () => {
   let invalidUser: InvalidUser;
 
   beforeAll(async() => {
-    user = await TestUser.generateTestUser();
+    user = await generateTestUser();
   });
 
   beforeEach(async () => {
     await database.deleteAllUsers();
 
-    invalidUser = await TestUser.generateTestUser();
+    invalidUser = await generateTestUser();
   });
 
   afterAll(async () => {

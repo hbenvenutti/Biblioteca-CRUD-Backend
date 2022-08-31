@@ -14,7 +14,7 @@ import { HashProviderInterface } from '@shared:providers/hash/Hash.provider.inte
 import { MockValidationProvider } from '@shared:providers/validation/Validation.mock.provider';
 import { ValidationProviderInterface } from '@shared:providers/validation/Validation.provider.interface';
 import { MockHashProvider } from '@shared:providers/hash/Hash.mock.provider';
-import { TestUser, TestUserData } from '@accounts:entities/TestUser';
+import { generateTestUser, TestUserData } from '@accounts:entities/TestUser';
 
 // ---------------------------------------------------------------------------------------------- //
 
@@ -32,7 +32,7 @@ describe('Create User Service', () => {
     hashProvider = new MockHashProvider();
     createUserService = new CreateUserService(usersRepository, validationProvider, hashProvider);
 
-    data = await TestUser.generateTestUser();
+    data = await generateTestUser();
   });
 
   // *** ---- Successful User Creation ------------------------------------------------------ *** //

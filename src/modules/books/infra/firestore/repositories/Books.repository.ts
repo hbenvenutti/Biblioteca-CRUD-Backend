@@ -1,3 +1,5 @@
+import { database } from '@firestore/firestore';
+
 import { BookCreationData, BookUpdateData } from '@books:dtos/Book';
 import { Book } from '@books:entities/Book';
 import { BooksRepositoryInterface } from '@books:repositories-interfaces/BooksRepository.interface';
@@ -5,9 +7,18 @@ import { BooksRepositoryInterface } from '@books:repositories-interfaces/BooksRe
 // ---------------------------------------------------------------------------------------------- //
 
 export class BooksRepository implements BooksRepositoryInterface {
-  create(data: BookCreationData): Promise<Book> {
-    throw new Error('Method not implemented.');
+  private books = database.collection('books');
+
+  async create(data: BookCreationData): Promise<Book> {
+    const { id } = await this.books.add(data);
+
+    const { title, author, edition, publisher, synopsis } = data;
+
+    const book = { id, title, author, edition, publisher, synopsis };
+
+    return book;
   }
+
   update(data: BookUpdateData): Promise<Book> {
     throw new Error('Method not implemented.');
   }

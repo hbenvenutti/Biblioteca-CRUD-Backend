@@ -2,8 +2,8 @@ import { inject, injectable } from 'tsyringe';
 
 import { SessionCreationRequest, SessionsCreationResponse } from '@accounts:dtos/Sessions.dto';
 
-import { InvalidDataError } from '@accounts:errors/InvalidData.error';
-import { NotFoundError } from '@accounts:errors/NotFound.error';
+import { InvalidDataError } from '@errors/InvalidData.error';
+import { NotFoundError } from '@errors/NotFound.error';
 
 import { UsersRepositoryInterface } from '@accounts:repositories-interfaces/UsersRepository.interface';
 

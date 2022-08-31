@@ -35,11 +35,11 @@ export class UsersRepositoryMock implements UsersRepositoryInterface {
     return user;
   }
 
-  findById(id: string): Promise<User[]> {
+  findById(_: string): Promise<User | undefined> {
     throw new Error('Method not implemented.');
   }
 
-  delete(id: string): Promise<void> {
+  delete(_: string): Promise<void> {
     throw new Error('Method not implemented.');
   }
 }

@@ -1,8 +1,9 @@
 import 'reflect-metadata';
 
 import { EmailInUseError } from '@accounts:errors/EmailInUse.error';
-import { InvalidDataError } from '@accounts:errors/InvalidData.error';
 import { PasswordsDontMatchError } from '@accounts:errors/PasswordsDontMatch.error';
+
+import { InvalidDataError } from '@errors/InvalidData.error';
 
 import { UsersRepositoryInterface } from '@accounts:repositories-interfaces/UsersRepository.interface';
 import { UsersRepositoryMock } from '@accounts:repositories-interfaces/mock/UsersRepository.mock';
@@ -13,6 +14,7 @@ import { HashProviderInterface } from '@shared:providers/hash/Hash.provider.inte
 import { MockValidationProvider } from '@shared:providers/validation/Validation.mock.provider';
 import { ValidationProviderInterface } from '@shared:providers/validation/Validation.provider.interface';
 import { MockHashProvider } from '@shared:providers/hash/Hash.mock.provider';
+import { generateTestUser, TestUserData } from '@accounts:entities/TestUser';
 
 // ---------------------------------------------------------------------------------------------- //
 
@@ -22,24 +24,20 @@ describe('Create User Service', () => {
   let hashProvider: HashProviderInterface;
   let createUserService: CreateUserService;
 
-  beforeEach(() => {
+  let data: TestUserData;
+
+  beforeEach(async () => {
     usersRepository = new UsersRepositoryMock();
     validationProvider = new MockValidationProvider();
     hashProvider = new MockHashProvider();
     createUserService = new CreateUserService(usersRepository, validationProvider, hashProvider);
+
+    data = await generateTestUser();
   });
 
   // *** ---- Successful User Creation ------------------------------------------------------ *** //
 
   it('should return a user with an id', async () => {
-    const data = {
-      name: 'john',
-      lastName: 'doe',
-      email:'johndoe@email.com',
-      password: '@Password',
-      passwordConfirmation: '@Password'
-    };
-
     const user = await createUserService.execute(data);
 
     expect(user).toHaveProperty('id');
@@ -51,14 +49,6 @@ describe('Create User Service', () => {
   // -------------------------------------------------------------------------------------------- //
 
   it('should return a user without its password', async () => {
-    const data = {
-      name: 'john',
-      lastName: 'doe',
-      email:'johndoe@email.com',
-      password: '@Password',
-      passwordConfirmation: '@Password'
-    };
-
     const user = await createUserService.execute(data);
 
     expect(user).not.toHaveProperty('password');
@@ -67,14 +57,6 @@ describe('Create User Service', () => {
   // *** ---- Data Validation and Treatment ------------------------------------------------- *** //
 
   it('should fail if e-mail is already in use', async () => {
-    const data = {
-      name: 'john',
-      lastName: 'doe',
-      email: 'johndoe@email.com',
-      password: '@Password',
-      passwordConfirmation: '@Password'
-    };
-
     await createUserService.execute(data);
 
     expect(async () => {
@@ -86,50 +68,70 @@ describe('Create User Service', () => {
 
   // -------------------------------------------------------------------------------------------- //
 
-  it('should remove useless spaces from strings', async () => {
-    const data = {
-      name: ' john',
-      lastName: ' doe ',
-      email: 'johndoe@email.com ',
-      password: '@Password',
-      passwordConfirmation: '@Password'
-    };
+  it('should remove useless spaces from name', async () => {
+    data.name = ' john';
 
     const user = await createUserService.execute(data);
 
     expect(user.name).toEqual('john');
-    expect(user.lastName).toEqual('doe');
-    expect(user.email).toEqual('johndoe@email.com');
   });
 
   // -------------------------------------------------------------------------------------------- //
 
-  it('should turn strings to lowercase', async () => {
-    const data = {
-      name: 'John',
-      lastName: 'doE',
-      email: 'JOHNDOE@EMAIL.COM ',
-      password: '@Password',
-      passwordConfirmation: '@Password'
-    };
+  it('should remove useless spaces from last name', async () => {
+    data.lastName = ' doe ';
+
+    const user = await createUserService.execute(data);
+
+    expect(user.lastName).toEqual('doe');
+  });
+
+  // -------------------------------------------------------------------------------------------- //
+
+  it('should remove useless spaces from e-mail', async () => {
+    data.email = 'johndoe@email.com ';
+
+    const user = await createUserService.execute(data);
+
+    expect(user.email).toEqual('johndoe@email.com');
+  });
+
+
+  // -------------------------------------------------------------------------------------------- //
+
+  it('should turn name into lowercase', async () => {
+    data.name = 'John';
 
     const user = await createUserService.execute(data);
 
     expect(user.name).toEqual('john');
+  });
+
+  // -------------------------------------------------------------------------------------------- //
+
+  it('should turn last name into lowercase', async () => {
+    data.lastName = 'doE';
+
+    const user = await createUserService.execute(data);
+
     expect(user.lastName).toEqual('doe');
+  });
+
+  // -------------------------------------------------------------------------------------------- //
+
+  it('should turn email into lowercase', async () => {
+    data.email = 'JOHNDOE@EMAIL.COM ';
+
+    const user = await createUserService.execute(data);
+
     expect(user.email).toEqual('johndoe@email.com');
   });
 
   // -------------------------------------------------------------------------------------------- //
 
   it('should fail if passwords don\'t match', async () => {
-    const data = {
-      name: 'john',
-      lastName: 'doe',
-      email: 'johndoe@email.com',
-      password: '@Password',
-      passwordConfirmation: 'Password2'
-    };
+    data.password = '@Password';
+    data.passwordConfirmation = 'Password2';
 
     expect(async () => {
       await createUserService.execute(data);
@@ -143,14 +145,6 @@ describe('Create User Service', () => {
   it('should call validation provider', async() => {
     const validateUserCreationData = jest.spyOn(validationProvider, 'validateUserCreationData');
 
-    const data = {
-      name: 'john',
-      lastName: 'doe',
-      email: 'johndoe@email.com',
-      password: '@Password',
-      passwordConfirmation: '@Password'
-    };
-
     await createUserService.execute(data);
 
     expect(validateUserCreationData).toHaveBeenCalled();
@@ -159,13 +153,7 @@ describe('Create User Service', () => {
   // -------------------------------------------------------------------------------------------- //
 
   it('should throw an error if validation return is false', async () => {
-    const data = {
-      name: 'john',
-      lastName: 'doe',
-      email: 'invalid',
-      password: '@Password',
-      passwordConfirmation: '@Password'
-    };
+    data.email = 'invalid';
 
     expect(async () => {
       await createUserService.execute(data);
@@ -177,14 +165,6 @@ describe('Create User Service', () => {
   // *** ---- Hash Provider ----------------------------------------------------------------- *** //
   it('should call the hash provider', async () => {
     const hash = jest.spyOn(hashProvider, 'hash');
-
-    const data = {
-      name: 'john',
-      lastName: 'doe',
-      email: 'johndoe@email.com',
-      password: '@Password',
-      passwordConfirmation: '@Password'
-    };
 
     await createUserService.execute(data);
 

@@ -3,7 +3,7 @@ import request from 'supertest';
 import server from '@shared:app/App';
 import { TestDatabaseFactory } from '@shared:infra/database/TestDatabaseFactory';
 import { TestDatabaseInterface } from '@shared:infra/database/TestDatabase.interface';
-import { TestUserData, TestUser } from '@accounts:entities/TestUser';
+import { TestUserData, TestUser, InvalidUser } from '@accounts:entities/TestUser';
 
 // ---------------------------------------------------------------------------------------------- //
 
@@ -11,7 +11,7 @@ describe('User Creation integration test', () => {
   const database: TestDatabaseInterface = new TestDatabaseFactory().testDatabase;
 
   let user: TestUserData;
-  let invalidUser: TestUserData;
+  let invalidUser: InvalidUser;
 
   beforeAll(async() => {
     user = await TestUser.generateTestUser();
@@ -99,7 +99,7 @@ describe('User Creation integration test', () => {
   });
 
 
-  // *** ---- Error Test Cases -------------------------------------------------------------- *** //
+  // *** ---- Business Rules ---------------------------------------------------------------- *** //
   it('should fail if passwords don\'t match', async () => {
     invalidUser.password = '@Password148';
     invalidUser.passwordConfirmation = '@Password149';
@@ -137,7 +137,7 @@ describe('User Creation integration test', () => {
     expect(body.status).toEqual('error');
   });
 
-  // *** ---- Data Validation --------------------------------------------------------------- *** //
+  // *** ---- E-mail Format  ---------------------------------------------------------------- *** //
   it('should fail if e-mail does not have a valid format', async () => {
     invalidUser.email = 'invalid-email';
 
@@ -154,7 +154,7 @@ describe('User Creation integration test', () => {
     expect(body.status).toEqual('error');
   });
 
-  // -------------------------------------------------------------------------------------------- //
+  // *** ---- Password Format --------------------------------------------------------------- *** //
 
   it('should fail if password length is lower than 8', async () => {
     const password = '@Pass19';
@@ -238,14 +238,14 @@ describe('User Creation integration test', () => {
     expect(body.status).toEqual('error');
   });
 
-  // -------------------------------------------------------------------------------------------- //
+  // *** ---- Required Properties Sent ------------------------------------------------------ *** //
 
   it('should fail if name is not sent', async () => {
-    const { lastName, email, password, passwordConfirmation } = user;
+    delete invalidUser.name;
 
     const response = await request(server)
       .post('/accounts/users')
-      .send({ lastName, email, password, passwordConfirmation });
+      .send(invalidUser);
 
     const { body } = response;
 
@@ -259,11 +259,11 @@ describe('User Creation integration test', () => {
   // -------------------------------------------------------------------------------------------- //
 
   it('should fail if last name is not sent', async () => {
-    const { name, email, password, passwordConfirmation } = user;
+    delete invalidUser.lastName;
 
     const response = await request(server)
       .post('/accounts/users')
-      .send({ name, email, password, passwordConfirmation });
+      .send(invalidUser);
 
     const { body } = response;
 
@@ -277,11 +277,11 @@ describe('User Creation integration test', () => {
   // -------------------------------------------------------------------------------------------- //
 
   it('should fail if email is not sent', async () => {
-    const { name, lastName, password, passwordConfirmation } = user;
+    delete invalidUser.email;
 
     const response = await request(server)
       .post('/accounts/users')
-      .send({ name, lastName, password, passwordConfirmation });
+      .send(invalidUser);
 
     const { body } = response;
 
@@ -295,11 +295,12 @@ describe('User Creation integration test', () => {
   // -------------------------------------------------------------------------------------------- //
 
   it('should fail if passwords are not sent', async () => {
-    const { name, lastName, email } = user;
+    delete invalidUser.password;
+    delete invalidUser.passwordConfirmation;
 
     const response = await request(server)
       .post('/accounts/users')
-      .send({ name, lastName, email });
+      .send(invalidUser);
 
     const { body } = response;
 
@@ -310,7 +311,7 @@ describe('User Creation integration test', () => {
     expect(body.status).toEqual('error');
   });
 
-  // -------------------------------------------------------------------------------------------- //
+  // *** ---- Numbers in names -------------------------------------------------------------- *** //
 
   it('should fail if name has numbers', async () => {
     invalidUser.name = 'john123';
@@ -346,15 +347,14 @@ describe('User Creation integration test', () => {
     expect(body.status).toEqual('error');
   });
 
-  // -------------------------------------------------------------------------------------------- //
+  // *** ---- Properties types -------------------------------------------------------------- *** //
 
   it('should fail if name is wrong type', async () => {
-    const name = true;
-    const { lastName, email, password, passwordConfirmation } = user;
+    invalidUser.name = true;
 
     const response = await request(server)
       .post('/accounts/users')
-      .send({ name, lastName, email, password, passwordConfirmation });
+      .send(invalidUser);
 
     const { body } = response;
 
@@ -367,12 +367,11 @@ describe('User Creation integration test', () => {
   // -------------------------------------------------------------------------------------------- //
 
   it('should fail if last name is wrong type', async () => {
-    const { name, email, password, passwordConfirmation } = user;
-    const lastName = true;
+    invalidUser.lastName = true;
 
     const response = await request(server)
       .post('/accounts/users')
-      .send({ name, lastName, email, password, passwordConfirmation });
+      .send(invalidUser);
 
     const { body } = response;
 
@@ -382,7 +381,7 @@ describe('User Creation integration test', () => {
     expect(body.status).toEqual('error');
   });
 
-  // -------------------------------------------------------------------------------------------- //
+  // *** ---- Names Length ------------------------------------------------------------------ *** //
 
   it('should fail if name length is lower than 3', async () => {
     invalidUser.name = 'jo';

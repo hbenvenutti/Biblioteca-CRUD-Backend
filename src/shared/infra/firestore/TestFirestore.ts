@@ -12,6 +12,7 @@ import { TestBook } from '@books:entities/TestBook';
  */
 class TestFirestore implements TestDatabaseInterface {
   private database = database;
+  private books = this.database.collection('books');
 
   // *** ---- Users ------------------------------------------------------------------------- *** //
   async deleteAllUsers(): Promise<void> {
@@ -49,25 +50,36 @@ class TestFirestore implements TestDatabaseInterface {
     return { id, name, lastName, email, password };
   }
 
-  async seedBook(): Promise<Book> {
-    const { title, author, edition, publisher, synopsis } = new TestBook();
-
-    const { id } = await this.database
-      .collection('books')
-      .add({ title, author, edition, publisher, synopsis });
-
-    return { id, title, author, edition, publisher, synopsis };
-  }
 
   // *** ---- Books ------------------------------------------------------------------------- *** //
   async deleteAllBooks(): Promise<void> {
-    const books = await this.database.collection('books').get();
+    const books = await this.books.get();
 
     const batch = this.database.batch();
 
     books.docs.forEach(doc => batch.delete(doc.ref));
 
     await batch.commit();
+  }
+  // -------------------------------------------------------------------------------------------- //
+
+  async seedBook(): Promise<Book> {
+    const { title, author, edition, publisher, synopsis } = new TestBook();
+
+    const { id } = await this.books
+      .add({ title, author, edition, publisher, synopsis });
+
+    return { id, title, author, edition, publisher, synopsis };
+  }
+
+  // -------------------------------------------------------------------------------------------- //
+
+  async getBook(id: string): Promise<Book | undefined> {
+    const doc = await this.books.doc(id).get();
+
+    return doc.exists
+      ? doc.data() as Book
+      : undefined;
   }
 }
 

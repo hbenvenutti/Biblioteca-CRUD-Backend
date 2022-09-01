@@ -22,18 +22,29 @@ export class BooksRepository implements BooksRepositoryInterface {
   update(data: BookUpdateData): Promise<Book> {
     throw new Error('Method not implemented.');
   }
+
   list(): Promise<Book[]> {
     throw new Error('Method not implemented.');
   }
-  delete(id: string): Promise<void> {
-    throw new Error('Method not implemented.');
+
+  async delete(id: string): Promise<void> {
+    await this.books.doc(id).delete();
+
+    return;
   }
-  findById(id: string): Promise<Book | undefined> {
-    throw new Error('Method not implemented.');
+
+  async findById(id: string): Promise<Book | undefined> {
+    const doc = await this.books.doc(id).get();
+
+    return doc.exists
+      ? doc.data() as Book
+      : undefined;
   }
+
   findByTitle(title: string): Promise<Book[]> {
     throw new Error('Method not implemented.');
   }
+
   findByPublisher(publisher: string): Promise<Book[]> {
     throw new Error('Method not implemented.');
   }

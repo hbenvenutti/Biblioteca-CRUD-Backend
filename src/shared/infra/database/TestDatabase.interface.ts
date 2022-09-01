@@ -13,8 +13,11 @@ import { Book } from '@books:entities/Book';
 export interface TestDatabaseInterface {
   deleteAllUsers(): Promise<void>;
   getUserPassword(id: string): Promise<string>
+
   seedUser(): Promise<User>;
-  seedBook(): Promise<Book>
+  seedBook(): Promise<Book>;
+
+  getBook(id: string): Promise<Book | undefined>;
 
   deleteAllBooks(): Promise<void>;
 }

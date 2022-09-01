@@ -1,26 +1,29 @@
-import { initializeApp, cert, ServiceAccount } from 'firebase-admin/app';
+import { initializeApp, applicationDefault } from 'firebase-admin/app';
 
 // ---------------------------------------------------------------------------------------------- //
 
-const { privateKey } = JSON.parse(process.env.PRIVATE_KEY as string);
+// ? ---- These comments will remain here just in case a problem shows up in the deployment.
 
-const serviceAccount: ServiceAccount = {
-  projectId: process.env.PROJECT_ID,
-  clientEmail: process.env.CLIENT_EMAIL,
-  privateKey
-};
+//// const { privateKey } = JSON.parse(process.env.PRIVATE_KEY as string);
 
-const testServiceAccount = {
-  projectId: process.env.TEST_PROJECT_ID,
-  clientEmail: process.env.TEST_CLIENT_EMAIL,
-  privateKey: process.env.TEST_PRIVATE_KEY
-};
+//// const serviceAccount: ServiceAccount = {
+////   projectId: process.env.PROJECT_ID,
+////   clientEmail: process.env.CLIENT_EMAIL,
+////   privateKey
+//// };
 
-const credential = process.env.NODE_ENV === 'production'
-  ? cert(serviceAccount)
-  : cert(testServiceAccount);
+//// const credential = process.env.NODE_ENV === 'production'
+/////  ? cert(serviceAccount)
+////   : applicationDefault();
+//// const firebaseApp = initializeApp({ credential: applicationDefault() });
+//// const firebaseApp = initializeApp({ credential });
 
-const firebaseApp = initializeApp({ credential });
+const projectId = process.env.NODE_ENV === 'production'
+  ? process.env.FIRESTORE_PROJECT_ID
+  : 'dummy-project-id';
+
+const firebaseApp = initializeApp({ credential: applicationDefault(),
+  projectId });
 
 // ---------------------------------------------------------------------------------------------- //
 

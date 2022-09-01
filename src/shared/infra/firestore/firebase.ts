@@ -1,29 +1,21 @@
-import { initializeApp, applicationDefault } from 'firebase-admin/app';
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { initializeApp, applicationDefault, ServiceAccount, cert } from 'firebase-admin/app';
 
 // ---------------------------------------------------------------------------------------------- //
-
-// ? ---- These comments will remain here just in case a problem shows up in the deployment.
-
-//// const { privateKey } = JSON.parse(process.env.PRIVATE_KEY as string);
-
-//// const serviceAccount: ServiceAccount = {
-////   projectId: process.env.PROJECT_ID,
-////   clientEmail: process.env.CLIENT_EMAIL,
-////   privateKey
-//// };
-
-//// const credential = process.env.NODE_ENV === 'production'
-/////  ? cert(serviceAccount)
-////   : applicationDefault();
-//// const firebaseApp = initializeApp({ credential: applicationDefault() });
-//// const firebaseApp = initializeApp({ credential });
+let serviceAccount: ServiceAccount;
 
 const projectId = process.env.NODE_ENV === 'production'
   ? process.env.FIRESTORE_PROJECT_ID
   : 'dummy-project-id';
 
-const firebaseApp = initializeApp({ credential: applicationDefault(),
-  projectId });
+if (process.env.NODE_ENV === 'production') {
+  const { privateKey } = JSON.parse(process.env.FIRESTORE_PRIVATE_KEY as string);
+  serviceAccount = { projectId, clientEmail: process.env.FIRESTORE_CLIENT_EMAIL, privateKey };
+}
+
+const firebaseApp = (process.env.NODE_ENV === 'production')
+  ? initializeApp({ credential: cert(serviceAccount!) })
+  : initializeApp({ credential: applicationDefault(), projectId });
 
 // ---------------------------------------------------------------------------------------------- //
 

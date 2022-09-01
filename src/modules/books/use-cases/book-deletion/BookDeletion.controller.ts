@@ -13,7 +13,7 @@ class BookDeletionController {
 
     await bookDeletionService.execute(id);
 
-    return response.status(203);
+    return response.status(204).json();
   }
 }
 

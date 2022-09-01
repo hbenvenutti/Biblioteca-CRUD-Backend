@@ -1,3 +1,8 @@
+import { User } from '@accounts:entities/User';
+import { Book } from '@books:entities/Book';
+
+// ---------------------------------------------------------------------------------------------- //
+
 /**
  * Interface that serves as a model to implement database methods for tests.
  *
@@ -8,7 +13,11 @@
 export interface TestDatabaseInterface {
   deleteAllUsers(): Promise<void>;
   getUserPassword(id: string): Promise<string>
-  seedUser(): Promise<void>;
+
+  seedUser(): Promise<User>;
+  seedBook(): Promise<Book>;
+
+  getBook(id: string): Promise<Book | undefined>;
 
   deleteAllBooks(): Promise<void>;
 }

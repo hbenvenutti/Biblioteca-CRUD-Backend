@@ -88,6 +88,25 @@ paths:
           $ref: "#/components/responses/Unauthorized"
         5XX:
           $ref: "#/components/responses/Unexpected"
+  /books/{id}:
+    delete:
+      tags:
+        - Books
+      summary: Rota para exclusão de um livro.
+      parameters:
+        - name: id
+          in: path
+          description: id do livro.
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: Sucesso!
+        401:
+          $ref: "#/components/responses/Unauthorized"
+        500:
+          $ref: "#/components/responses/Unexpected"
 
 components:
   schemas:

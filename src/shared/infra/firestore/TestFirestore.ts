@@ -3,7 +3,7 @@ import { database }from '@firestore/firestore';
 import { generateTestUser } from '@accounts:entities/TestUser';
 import { Book } from '@books:entities/Book';
 import { User } from '@accounts:entities/User';
-import { TestBook } from '@books:entities/TestBook';
+import { generateOneBook } from '@books:entities/TestBook';
 
 // ---------------------------------------------------------------------------------------------- //
 
@@ -64,7 +64,7 @@ class TestFirestore implements TestDatabaseInterface {
   // -------------------------------------------------------------------------------------------- //
 
   async seedBook(): Promise<Book> {
-    const { title, author, edition, publisher, synopsis } = new TestBook();
+    const { title, author, edition, publisher, synopsis } = generateOneBook();
 
     const { id } = await this.books
       .add({ title, author, edition, publisher, synopsis });

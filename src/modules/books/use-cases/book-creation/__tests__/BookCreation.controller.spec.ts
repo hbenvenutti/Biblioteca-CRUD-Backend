@@ -5,15 +5,17 @@ import server from '@shared:app/App';
 import { TestDatabaseFactory } from '@shared:infra/database/TestDatabaseFactory';
 import { TestDatabaseInterface } from '@shared:infra/database/TestDatabase.interface';
 
-import { InvalidBook, TestBook } from '@books:entities/TestBook';
+import { InvalidBook, generateOneBook } from '@books:entities/TestBook';
 import { createSession } from '@shared:utils/tests/createSession';
+import { BookCreationData } from '@books:dtos/Book';
 
 // ---------------------------------------------------------------------------------------------- //
 
 describe('book creation controller', () => {
   const database: TestDatabaseInterface = new TestDatabaseFactory().testDatabase;
 
-  let book: TestBook;
+  let book: BookCreationData;
+  let invalidBook: InvalidBook;
 
   let token: string;
 
@@ -28,7 +30,8 @@ describe('book creation controller', () => {
   beforeEach(async () => {
     await database.deleteAllBooks();
 
-    book = new TestBook();
+    book = generateOneBook();
+    invalidBook = generateOneBook();
   });
 
   afterAll(async () => {
@@ -216,7 +219,6 @@ describe('book creation controller', () => {
 
   // *** ---- Data Validation --------------------------------------------------------------- *** //
   it('should fail if title is not provided', async () => {
-    const invalidBook: InvalidBook = new TestBook();
     delete invalidBook.title;
 
     const response = await request(server)
@@ -233,7 +235,6 @@ describe('book creation controller', () => {
   });
 
   it('should fail if title is wrong type', async () => {
-    const invalidBook: InvalidBook = new TestBook();
     invalidBook.title = false;
 
     const response = await request(server)
@@ -252,7 +253,6 @@ describe('book creation controller', () => {
   // ---- Author --------------------------------------------------------------------------------- //
 
   it('should fail if author is not provided', async () => {
-    const invalidBook: InvalidBook = new TestBook();
     delete invalidBook.author;
 
     const response = await request(server)
@@ -271,7 +271,6 @@ describe('book creation controller', () => {
   // -------------------------------------------------------------------------------------------- //
 
   it('should fail if author is wrong type', async () => {
-    const invalidBook: InvalidBook = new TestBook();
     invalidBook.author = false;
 
     const response = await request(server)
@@ -290,7 +289,6 @@ describe('book creation controller', () => {
   // ---- Publisher ----------------------------------------------------------------------------- //
 
   it('should fail if publisher is not provided', async () => {
-    const invalidBook: InvalidBook = new TestBook();
     delete invalidBook.publisher;
 
     const response = await request(server)
@@ -309,7 +307,6 @@ describe('book creation controller', () => {
   // -------------------------------------------------------------------------------------------- //
 
   it('should fail if publisher is wrong type', async () => {
-    const invalidBook: InvalidBook = new TestBook();
     invalidBook.publisher = false;
 
     const response = await request(server)
@@ -328,7 +325,6 @@ describe('book creation controller', () => {
   // ---- Edition ------------------------------------------------------------------------------- //
 
   it('should fail if edition is not provided', async () => {
-    const invalidBook: InvalidBook = new TestBook();
     delete invalidBook.edition;
 
     const response = await request(server)
@@ -347,7 +343,7 @@ describe('book creation controller', () => {
   // -------------------------------------------------------------------------------------------- //
 
   it('should fail if edition is wrong type', async () => {
-    const invalidBook: InvalidBook = new TestBook();
+    const invalidBook: InvalidBook = generateOneBook();
     invalidBook.edition = false;
 
     const response = await request(server)
@@ -366,7 +362,6 @@ describe('book creation controller', () => {
   // ---- Synopsis ------------------------------------------------------------------------------ //
 
   it('should fail if synopsis is not provided', async () => {
-    const invalidBook: InvalidBook = new TestBook();
     delete invalidBook.synopsis;
 
     const response = await request(server)
@@ -385,7 +380,6 @@ describe('book creation controller', () => {
   // -------------------------------------------------------------------------------------------- //
 
   it('should fail if synopsis is wrong type', async () => {
-    const invalidBook: InvalidBook = new TestBook();
     invalidBook.synopsis = false;
 
     const response = await request(server)

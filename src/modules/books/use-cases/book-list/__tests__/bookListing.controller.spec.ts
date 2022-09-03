@@ -26,9 +26,9 @@ describe('Book listing integration', () => {
 
     const { body } = response;
 
-    console.log(body);
     expect(response.status).toEqual(200);
     expect(body).toBeInstanceOf(Array);
+    expect(body.length).toEqual(3);
 
     expect(body[0]).toHaveProperty('id');
     expect(body[0].title).toEqual(books[0].title);

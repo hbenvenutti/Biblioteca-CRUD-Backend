@@ -1,19 +1,16 @@
 import { inject, injectable } from 'tsyringe';
 
-import { UserCreationRequest, UserResponseData } from '@accounts:dtos/Users.dto';
-
 import { EmailInUseError } from '@accounts:errors/EmailInUse.error';
-import { InvalidDataError } from '@accounts:errors/InvalidData.error';
 import { PasswordsDontMatchError } from '@accounts:errors/PasswordsDontMatch.error';
+import { InvalidDataError } from '@errors/InvalidData.error';
 
+import { UserCreationRequest, UserResponseData } from '@accounts:dtos/Users.dto';
 import { UserMap } from '@accounts:mappers/User.map';
-
-import { UsersRepositoryInterface } from '@accounts:repositories-interfaces/UsersRepository.interface';
-
-import { ValidationProviderInterface } from '@shared:providers/validation/Validation.provider.interface';
-import { HashProviderInterface } from '@shared:providers/hash/Hash.provider.interface';
-
 import { prepareStringToDatabase } from '@shared:utils/prepareStringToDatabase';
+
+import type { UsersRepositoryInterface } from '@accounts:repositories-interfaces/UsersRepository.interface';
+import type { ValidationProviderInterface } from '@shared:providers/validation/Validation.provider.interface';
+import type { HashProviderInterface } from '@shared:providers/hash/Hash.provider.interface';
 
 // ---------------------------------------------------------------------------------------------- //
 

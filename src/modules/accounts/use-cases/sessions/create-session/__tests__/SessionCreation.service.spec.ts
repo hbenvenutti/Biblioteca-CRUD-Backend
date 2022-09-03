@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 
-import { NotFoundError } from '@accounts:errors/NotFound.error';
-import { InvalidDataError } from '@accounts:errors/InvalidData.error';
+import { NotFoundError } from '@errors/NotFound.error';
+import { InvalidDataError } from '@errors/InvalidData.error';
 
 import { UsersRepositoryMock } from '@accounts:repositories-interfaces/mock/UsersRepository.mock';
 import { UsersRepositoryInterface } from '@accounts:repositories-interfaces/UsersRepository.interface';

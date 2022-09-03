@@ -3,7 +3,7 @@ import { database }from '@firestore/firestore';
 import { generateTestUser } from '@accounts:entities/TestUser';
 import { Book } from '@books:entities/Book';
 import { User } from '@accounts:entities/User';
-import { generateOneBook } from '@books:entities/TestBook';
+import { generateOneBook, generateThreeBooks } from '@books:entities/TestBook';
 
 // ---------------------------------------------------------------------------------------------- //
 
@@ -70,6 +70,27 @@ class TestFirestore implements TestDatabaseInterface {
       .add({ title, author, edition, publisher, synopsis });
 
     return { id, title, author, edition, publisher, synopsis };
+  }
+
+  // -------------------------------------------------------------------------------------------- //
+
+  async seedThreeBooks(): Promise<Book[]> {
+    const booksData = generateThreeBooks();
+
+    let counter = 0;
+
+    const books: Book[] = [];
+
+    while (counter < 3) {
+      const { title, edition, publisher, author, synopsis } = booksData[counter];
+      const { id } = await this.books.add({ title, edition, publisher, author, synopsis });
+
+      books.push({ id, title, edition, publisher, author, synopsis });
+
+      counter++;
+    }
+
+    return books;
   }
 
   // -------------------------------------------------------------------------------------------- //

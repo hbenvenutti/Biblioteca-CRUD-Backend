@@ -23,8 +23,22 @@ export class BooksRepository implements BooksRepositoryInterface {
     throw new Error('Method not implemented.');
   }
 
-  list(): Promise<Book[]> {
-    throw new Error('Method not implemented.');
+  async list(): Promise<Book[]> {
+    const booksSnapshot = await this.books.get();
+
+    const books: Book[] = [];
+
+    booksSnapshot.forEach(doc => {
+      const { id } = doc;
+      const{ title, publisher, author, edition, synopsis } = doc.data();
+
+      books.push({ id, title, publisher, author, edition, synopsis });
+    });
+
+    books.sort((a, b) => (a.title > b.title) ? 1 : -1);
+
+
+    return books;
   }
 
   async delete(id: string): Promise<void> {

@@ -6,12 +6,13 @@ import { BooksRepositoryMock } from '@books:repositories-interfaces/BooksReposit
 import { ValidationProviderInterface } from '@shared:containers/providers/validation/Validation.provider.interface';
 import { MockValidationProvider } from '@shared:containers/providers/validation/Validation.mock.provider';
 import { InvalidDataError } from '@errors/InvalidData.error';
-import { TestBook } from '@books:entities/TestBook';
+import { generateOneBook } from '@books:entities/TestBook';
+import { BookCreationData } from '@books:dtos/Book';
 
 // ---------------------------------------------------------------------------------------------- //
 
 describe('book creation service', () => {
-  let bookData: TestBook;
+  let bookData: BookCreationData;
 
   let booksRepository: BooksRepositoryInterface;
   let validationProvider: ValidationProviderInterface;
@@ -24,7 +25,7 @@ describe('book creation service', () => {
   });
 
   beforeEach(async () => {
-    bookData = new TestBook();
+    bookData = generateOneBook();
   });
 
   // -------------------------------------------------------------------------------------------- //

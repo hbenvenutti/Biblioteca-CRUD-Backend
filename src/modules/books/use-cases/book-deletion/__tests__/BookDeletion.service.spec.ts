@@ -3,11 +3,11 @@ import 'reflect-metadata';
 import { BookDeletionService } from '@books:use-cases/book-deletion/BookDeletion.service';
 import { BooksRepositoryInterface } from '@books:repositories-interfaces/BooksRepository.interface';
 import { BooksRepositoryMock } from '@books:repositories-interfaces/BooksRepositoryMock';
-import { TestBook } from '@books:entities/TestBook';
+import { generateOneBook } from '@books:entities/TestBook';
 
 // ---------------------------------------------------------------------------------------------- //
 describe('book deletion service', () => {
-  const data = new TestBook();
+  const data = generateOneBook();
   let booksRepository: BooksRepositoryInterface;
   let bookDeletionService: BookDeletionService;
 

@@ -88,6 +88,24 @@ paths:
           $ref: "#/components/responses/Unauthorized"
         5XX:
           $ref: "#/components/responses/Unexpected"
+
+    get:
+      tags:
+        - Books
+      summary: Listagem de livros.
+      description: Rota para listagem e busca de livros.
+      responses:
+        200:
+          description: Sucesso!
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                    $ref: "#/components/schemas/BookList"
+        500:
+          $ref: "#/components/responses/Unexpected"
+
   /books/{id}:
     delete:
       tags:
@@ -110,6 +128,35 @@ paths:
 
 components:
   schemas:
+    BookList:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        author:
+          type: string
+        publisher:
+          type: string
+        edition:
+          type: string
+        synopsis:
+          type: string
+      example:
+        id: 'lafghlhfgahflkj'
+        title: 'O Senhor dos Anéis: A Sociedade do Anel'
+        author: 'J.R.R. Tolkien'
+        publisher: 'Harper Collins'
+        edition: '2019'
+        synopsis: |
+          O volume inicial de O Senhor dos Anéis, lançado originalmente em julho de 1954,
+          foi o primeiro grande épico de fantasia moderno, conquistando milhões de leitores
+          e se tornando o padrão de referência para todas as outras obras do gênero até hoje.
+          A imaginação prodigiosa de J.R.R. Tolkien e seu conhecimento profundo das antigas
+          mitologias da Europa permitiram que ele criasse um universo tão complexo e convincente
+          quanto o mundo real.
+
     BookRequest:
       type: object
       properties:

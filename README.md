@@ -120,12 +120,19 @@ Time:        26.994 s
 Ran all test suites.
 Done in 29.39s.
 ```
+## Relatório dos testes:
+Ao rodar os testes, o jest gera automáticamente um relatório na pasta coverage. Para ler o relatório completo basta abrir o arquivo index.html que fica em
+**coverage/lcov-report**
+```
+firefox ./coverage/lcov-report/index.html
+```
 
 <br>
 <hr>
 <br><br>
 
 <a id="ancora3"></a>
+
 # Build da aplicação para produção
 A aplicação usa o babel para gerar o código javascript.
 * Execute o comando:

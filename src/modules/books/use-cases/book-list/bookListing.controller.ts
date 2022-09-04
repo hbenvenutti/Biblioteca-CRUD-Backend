@@ -6,9 +6,15 @@ import { BookListingService } from '@books:use-cases/book-list/BookListing.servi
 // ---------------------------------------------------------------------------------------------- //
 
 const bookListingController = async (request: Request, response: Response): Promise<Response> => {
+  let search = undefined;
+
+  if (typeof request.query.search === 'string') {
+    search = request.query.search;
+  }
+
   const bookListingService = container.resolve(BookListingService);
 
-  const books = await bookListingService.execute();
+  const books = await bookListingService.execute({ search });
 
   return response.status(200).json(books);
 };

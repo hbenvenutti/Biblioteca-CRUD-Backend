@@ -13,6 +13,7 @@ export interface BooksRepositoryInterface {
   findById(id: string): Promise<Book | undefined>;
   findByTitle(title: string): Promise<Book[]>;
   findByPublisher(publisher: string): Promise<Book[]>;
+  findByAuthor(author: string): Promise<Book[]>;
 }
 
 // ---------------------------------------------------------------------------------------------- //

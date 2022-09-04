@@ -50,6 +50,10 @@ class BooksRepositoryMock implements BooksRepositoryInterface {
   async findByPublisher(publisher: string): Promise<Book[]> {
     return this.books.filter(book => book.publisher === publisher);
   }
+
+  async findByAuthor(author: string): Promise<Book[]> {
+    return this.books.filter(book => book.author === author);
+  }
 }
 
 

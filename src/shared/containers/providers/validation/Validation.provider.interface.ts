@@ -11,4 +11,5 @@ export interface ValidationProviderInterface {
 
   // *** ---- Book -------------------------------------------------------------------------- *** //
   validateBookCreationData(data: BookCreationData): Promise<boolean>;
+  validateBookUpdateData(data: BookCreationData): Promise<boolean>;
 }

@@ -39,4 +39,46 @@ describe('Book listing integration', () => {
     expect(body[2]).toHaveProperty('id');
     expect(body[2].title).toEqual(books[2].title);
   });
+
+  // -------------------------------------------------------------------------------------------- //
+  it('should search books by title', async() => {
+    const response = await request(server).get(`/books?search=${books[1].title}`);
+
+    const { body } = response;
+
+    expect(response.status).toEqual(200);
+    expect(body).toBeInstanceOf(Array);
+    expect(body.length).toEqual(1);
+
+    expect(body[0]).toHaveProperty('id');
+    expect(body[0].title).toEqual(books[1].title);
+  });
+
+  // -------------------------------------------------------------------------------------------- //
+  it('should search books by publisher', async() => {
+    const response = await request(server).get(`/books?search=${books[1].publisher}`);
+
+    const { body } = response;
+
+    expect(response.status).toEqual(200);
+    expect(body).toBeInstanceOf(Array);
+    expect(body.length).toEqual(1);
+
+    expect(body[0]).toHaveProperty('id');
+    expect(body[0].publisher).toEqual(books[1].publisher);
+  });
+
+  // -------------------------------------------------------------------------------------------- //
+  it('should search books by author', async() => {
+    const response = await request(server).get(`/books?search=${books[1].author}`);
+
+    const { body } = response;
+
+    expect(response.status).toEqual(200);
+    expect(body).toBeInstanceOf(Array);
+    expect(body.length).toEqual(1);
+
+    expect(body[0]).toHaveProperty('id');
+    expect(body[0].author).toEqual(books[1].author);
+  });
 });

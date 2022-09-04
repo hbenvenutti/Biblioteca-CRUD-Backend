@@ -22,7 +22,7 @@ describe('Book listing service', () => {
   });
 
   it('should list all books', async () => {
-    const books = await bookListingService.execute();
+    const books = await bookListingService.execute({});
 
     const [ book1, book2, book3 ] = books;
 
@@ -37,5 +37,32 @@ describe('Book listing service', () => {
 
     expect(book3).toHaveProperty('id');
     expect(book3.title).toEqual(books[2].title);
+  });
+
+  // *** ---- Search ------------------------------------------------------------------------ *** //
+  it('should search by title', async () => {
+    const result = await bookListingService.execute({ search: books[1].title });
+
+    expect(result.length).toEqual(1);
+    expect(result[0].title).toEqual(books[1].title);
+    expect(result[0]).toHaveProperty('id');
+  });
+
+  // -------------------------------------------------------------------------------------------- //
+  it('should search by publisher', async () => {
+    const result = await bookListingService.execute({ search: books[1].publisher });
+
+    expect(result.length).toEqual(1);
+    expect(result[0].publisher).toEqual(books[1].publisher);
+    expect(result[0]).toHaveProperty('id');
+  });
+
+  // -------------------------------------------------------------------------------------------- //
+  it('should search by author', async () => {
+    const result = await bookListingService.execute({ search: books[1].author });
+
+    expect(result.length).toEqual(1);
+    expect(result[0].author).toEqual(books[1].author);
+    expect(result[0]).toHaveProperty('id');
   });
 });

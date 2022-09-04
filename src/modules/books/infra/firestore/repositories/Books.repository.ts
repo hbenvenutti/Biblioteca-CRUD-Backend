@@ -19,8 +19,14 @@ export class BooksRepository implements BooksRepositoryInterface {
     return book;
   }
 
-  update(data: BookUpdateData): Promise<Book> {
-    throw new Error('Method not implemented.');
+  async update(data: BookUpdateData): Promise<Book> {
+    const { id, title, author, publisher, edition, synopsis } = data;
+
+    const bookReference = this.books.doc(id);
+
+    await bookReference.set({ title, author, edition, publisher, synopsis });
+
+    return data;
   }
 
   async list(): Promise<Book[]> {
@@ -55,11 +61,45 @@ export class BooksRepository implements BooksRepositoryInterface {
       : undefined;
   }
 
-  findByTitle(title: string): Promise<Book[]> {
-    throw new Error('Method not implemented.');
+  async findByTitle(title: string): Promise<Book[]> {
+    const books: Book[] = [];
+    const result = await this.books.where('title', '==', title).get();
+
+    result.forEach(doc => {
+      const { id } = doc;
+      const { title, publisher, author, edition, synopsis } = doc.data();
+
+      books.push({ id, title, publisher, author, edition, synopsis });
+    });
+
+    return books;
   }
 
-  findByPublisher(publisher: string): Promise<Book[]> {
-    throw new Error('Method not implemented.');
+  async findByPublisher(publisher: string): Promise<Book[]> {
+    const books: Book[] = [];
+    const result = await this.books.where('publisher', '==', publisher).get();
+
+    result.forEach(doc => {
+      const { id } = doc;
+      const { title, publisher, author, edition, synopsis } = doc.data();
+
+      books.push({ id, title, publisher, author, edition, synopsis });
+    });
+
+    return books;
+  }
+
+  async findByAuthor(author: string): Promise<Book[]> {
+    const books: Book[] = [];
+    const result = await this.books.where('author', '==', author).get();
+
+    result.forEach(doc => {
+      const { id } = doc;
+      const { title, publisher, author, edition, synopsis } = doc.data();
+
+      books.push({ id, title, publisher, author, edition, synopsis });
+    });
+
+    return books;
   }
 }

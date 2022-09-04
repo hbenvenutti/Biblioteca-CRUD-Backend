@@ -19,8 +19,14 @@ export class BooksRepository implements BooksRepositoryInterface {
     return book;
   }
 
-  update(data: BookUpdateData): Promise<Book> {
-    throw new Error('Method not implemented.');
+  async update(data: BookUpdateData): Promise<Book> {
+    const { id, title, author, publisher, edition, synopsis } = data;
+
+    const bookReference = this.books.doc(id);
+
+    await bookReference.set({ title, author, edition, publisher, synopsis });
+
+    return data;
   }
 
   async list(): Promise<Book[]> {

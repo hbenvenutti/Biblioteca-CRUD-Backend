@@ -94,4 +94,19 @@ export class YupValidationProvider implements ValidationProviderInterface {
 
     return await bookCreationSchema.isValid(data);
   }
+
+  async validateBookUpdateData(data: BookCreationData): Promise<boolean> {
+    const bookUpdateSchema = yup
+      .object()
+      .shape({
+        id: yup.string().strict().required(),
+        title: yup.string().strict().required(),
+        author: yup.string().strict().required(),
+        publisher: yup.string().strict().required(),
+        edition: yup.string().strict().required(),
+        synopsis: yup.string().strict().required()
+      });
+
+    return await bookUpdateSchema.isValid(data);
+  }
 }

@@ -32,9 +32,19 @@ export const generateThreeBooks = (): BookCreationData[] => {
 };
 
 export interface InvalidBook {
+  id?: string,
   title?: string | boolean;
   author?: string | boolean;
   publisher?: string | boolean;
   edition?: string | boolean;
   synopsis?: string | boolean;
+}
+
+export interface TestBook {
+  id: string,
+  title: string;
+  author: string;
+  publisher: string;
+  edition: string;
+  synopsis: string;
 }

@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: CRUD Desafio Teppa Backend
   description: CRUD simples de um sistema de biblioteca.
-  version: 0.1.0
+  version: 1.0.0
 
 paths:
   /accounts/users:

@@ -17,4 +17,8 @@ export class MockValidationProvider implements ValidationProviderInterface {
   async validateBookCreationData(data: BookCreationData): Promise<boolean> {
     return data.title !== 'invalid';
   }
+
+  async validateBookUpdateData(data: BookCreationData): Promise<boolean> {
+    return data.title !== 'invalid';
+  }
 }

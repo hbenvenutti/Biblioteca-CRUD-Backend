@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: CRUD Desafio Teppa Backend
   description: CRUD simples de um sistema de biblioteca.
-  version: 0.1.0
+  version: 1.0.0
 
 paths:
   /accounts/users:
@@ -62,6 +62,30 @@ paths:
         5XX:
           $ref: "#/components/responses/Unexpected"
   /books:
+    get:
+      tags:
+        - Books
+      summary: Listagem de livros.
+      description: Rota para listagem e busca de livros.
+      parameters:
+        - in: query
+          name: search
+          schema:
+            type: string
+          description: |
+            Palavra chave para a busca dos livros no banco de dados.
+            * Pesquisa por títulos, editoras e autores.
+      responses:
+        200:
+          description: Sucesso!
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                    $ref: "#/components/schemas/BookList"
+        500:
+          $ref: "#/components/responses/Unexpected"
     post:
       tags:
         - Books
@@ -89,45 +113,7 @@ paths:
         5XX:
           $ref: "#/components/responses/Unexpected"
 
-    get:
-      tags:
-        - Books
-      summary: Listagem de livros.
-      description: Rota para listagem e busca de livros.
-      responses:
-        200:
-          description: Sucesso!
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                    $ref: "#/components/schemas/BookList"
-        500:
-          $ref: "#/components/responses/Unexpected"
-
   /books/{id}:
-    delete:
-      tags:
-        - Books
-      summary: Exclusão de livros.
-      description: Rota para deletar um livro no banco de dados.
-      security:
-        - BearerAuth: []
-      parameters:
-        - name: id
-          in: path
-          description: id do livro.
-          required: true
-          schema:
-            type: string
-      responses:
-        204:
-          description: Sucesso!
-        401:
-          $ref: "#/components/responses/Unauthorized"
-        500:
-          $ref: "#/components/responses/Unexpected"
     put:
       tags:
         - Books
@@ -160,6 +146,27 @@ paths:
           $ref: "#/components/responses/Unauthorized"
         404:
           $ref: "#/components/responses/NotFound"
+        500:
+          $ref: "#/components/responses/Unexpected"
+    delete:
+      tags:
+        - Books
+      summary: Exclusão de livros.
+      description: Rota para deletar um livro no banco de dados.
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: id do livro.
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: Sucesso!
+        401:
+          $ref: "#/components/responses/Unauthorized"
         500:
           $ref: "#/components/responses/Unexpected"
 

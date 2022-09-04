@@ -6,6 +6,10 @@ import type { BooksRepositoryInterface } from '@books:repositories-interfaces/Bo
 
 // ---------------------------------------------------------------------------------------------- //
 
+interface query {
+  search?: string
+}
+
 @injectable()
 class BookListingService {
   constructor(
@@ -13,8 +17,21 @@ class BookListingService {
     private booksRepository: BooksRepositoryInterface
   ) {}
 
-  async execute(): Promise<Book[]> {
-    return await this.booksRepository.list();
+  async execute({ search }: query): Promise<Book[]> {
+    if (search) {
+      const titleSearch = await this.booksRepository.findByTitle(search);
+      const authorSearch = await this.booksRepository.findByAuthor(search);
+      const publisherSearch = await this.booksRepository.findByPublisher(search);
+
+      const searchResults = [ ...titleSearch, ...authorSearch, ...publisherSearch ];
+
+      return searchResults
+        .filter((book, index) => searchResults.indexOf(book) === index);
+    }
+
+    else {
+      return await this.booksRepository.list();
+    }
   }
 }
 

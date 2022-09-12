@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import 'dotenv/config';
 import '@shared:containers/index';
 
+import cors from 'cors';
 import express, { Request, Response, NextFunction } from 'express';
 import 'express-async-errors';
 
@@ -24,6 +25,7 @@ class App {
   }
 
   middlewares() {
+    this.server.use(cors());
     this.server.use(express.json());
   }
 

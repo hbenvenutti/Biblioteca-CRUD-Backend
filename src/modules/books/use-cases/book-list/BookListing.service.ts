@@ -3,6 +3,7 @@ import { inject, injectable } from 'tsyringe';
 import { Book } from '@books:entities/Book';
 
 import type { BooksRepositoryInterface } from '@books:repositories-interfaces/BooksRepository.interface';
+import { removeDuplicates } from '@shared:utils/removeDuplicates';
 
 // ---------------------------------------------------------------------------------------------- //
 
@@ -25,8 +26,7 @@ class BookListingService {
 
       const searchResults = [ ...titleSearch, ...authorSearch, ...publisherSearch ];
 
-      return searchResults
-        .filter((book, index) => searchResults.indexOf(book) === index);
+      return removeDuplicates(searchResults);
     }
 
     else {

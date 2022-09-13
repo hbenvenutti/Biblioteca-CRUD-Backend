@@ -23,6 +23,8 @@ describe('Book listing integration', () => {
 
   it('should list all three books', async() => {
     const response = await request(server).get('/books');
+    // console.log('books: ', books);
+
 
     const { body } = response;
 
@@ -31,18 +33,18 @@ describe('Book listing integration', () => {
     expect(body.length).toEqual(3);
 
     expect(body[0]).toHaveProperty('id');
-    expect(body[0].title).toEqual(books[0].title);
+    expect(body[0].title).toEqual(books[2].title);
 
     expect(body[1]).toHaveProperty('id');
-    expect(body[1].title).toEqual(books[1].title);
+    expect(body[1].title).toEqual(books[0].title);
 
     expect(body[2]).toHaveProperty('id');
-    expect(body[2].title).toEqual(books[2].title);
+    expect(body[2].title).toEqual(books[1].title);
   });
 
   // -------------------------------------------------------------------------------------------- //
   it('should search books by title', async() => {
-    const response = await request(server).get(`/books?search=${books[1].title}`);
+    const response = await request(server).get(`/books?search=${books[2].title}`);
 
     const { body } = response;
 
@@ -51,12 +53,12 @@ describe('Book listing integration', () => {
     expect(body.length).toEqual(1);
 
     expect(body[0]).toHaveProperty('id');
-    expect(body[0].title).toEqual(books[1].title);
+    expect(body[0].title).toEqual(books[2].title);
   });
 
   // -------------------------------------------------------------------------------------------- //
   it('should search books by publisher', async() => {
-    const response = await request(server).get(`/books?search=${books[1].publisher}`);
+    const response = await request(server).get(`/books?search=${books[2].publisher}`);
 
     const { body } = response;
 
@@ -65,12 +67,12 @@ describe('Book listing integration', () => {
     expect(body.length).toEqual(1);
 
     expect(body[0]).toHaveProperty('id');
-    expect(body[0].publisher).toEqual(books[1].publisher);
+    expect(body[0].publisher).toEqual(books[2].publisher);
   });
 
   // -------------------------------------------------------------------------------------------- //
   it('should search books by author', async() => {
-    const response = await request(server).get(`/books?search=${books[1].author}`);
+    const response = await request(server).get(`/books?search=${books[2].author}`);
 
     const { body } = response;
 
@@ -79,6 +81,6 @@ describe('Book listing integration', () => {
     expect(body.length).toEqual(1);
 
     expect(body[0]).toHaveProperty('id');
-    expect(body[0].author).toEqual(books[1].author);
+    expect(body[0].author).toEqual(books[2].author);
   });
 });

@@ -67,7 +67,7 @@ export class BooksRepository implements BooksRepositoryInterface {
 
     result.forEach(doc => {
       const { id } = doc;
-      const { title, publisher, author, edition, synopsis } = doc.data();
+      const { title, publisher, author, edition, synopsis } = doc.data() as DbData;
 
       books.push({ id, title, publisher, author, edition, synopsis });
     });
@@ -81,7 +81,7 @@ export class BooksRepository implements BooksRepositoryInterface {
 
     result.forEach(doc => {
       const { id } = doc;
-      const { title, publisher, author, edition, synopsis } = doc.data();
+      const { title, publisher, author, edition, synopsis } = doc.data() as DbData;
 
       books.push({ id, title, publisher, author, edition, synopsis });
     });
@@ -95,11 +95,15 @@ export class BooksRepository implements BooksRepositoryInterface {
 
     result.forEach(doc => {
       const { id } = doc;
-      const { title, publisher, author, edition, synopsis } = doc.data();
+      const { title, publisher, author, edition, synopsis } = doc.data() as DbData;
 
       books.push({ id, title, publisher, author, edition, synopsis });
     });
 
     return books;
   }
+}
+
+interface DbData {
+  id: string; title:string; publisher:string; author:string; edition:string; synopsis:string;
 }

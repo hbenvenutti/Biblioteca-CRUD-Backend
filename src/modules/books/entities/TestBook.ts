@@ -16,7 +16,7 @@ export const generateThreeBooks = (): BookCreationData[] => {
   const books: BookCreationData[] = [];
   let counter = 1;
 
-  while (counter < 4) {
+  while (counter < 3) {
     books.push({
       title: `title${counter}`,
       author: `author${counter}`,
@@ -27,6 +27,14 @@ export const generateThreeBooks = (): BookCreationData[] => {
 
     counter++;
   }
+
+  books.push({
+    title: 'teste',
+    author: 'teste',
+    publisher: 'teste',
+    edition: 'teste',
+    synopsis: 'teste'
+  });
 
   return books;
 };
